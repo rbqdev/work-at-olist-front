@@ -1,3 +1,9 @@
+# Custom configs
+# Bundle project
+dist/
+
+
+# Default configs based on Node
 # Logs
 logs
 *.log
