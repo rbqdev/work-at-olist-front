@@ -1,6 +1,7 @@
 @import './variables';
 
-/* Main Style */
+/* Reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -21,6 +22,12 @@ body {
 body {
     background: $lilac;
 }
+
+ul {
+    list-style: none;
+}
+
+/* Main Style */
 
 .create-account {
 
@@ -118,15 +125,11 @@ body {
         }
 
         &.valid {
-            input {
-                border-color: $green;
-            }
+            input { border-color: $green; }
         }
 
         &.error {
-            input {
-                border-color: $red;
-            }
+            input { border-color: $red; }
         }
 
         .btn-submit {
@@ -213,16 +216,57 @@ body {
                     margin-right: 8px;
                 }
             }
+
+            &.error {
+                span:nth-child(1){
+                    background: $red;
+                }
+            }
+            &.warning {
+                span:not(.step-3){
+                    background: $yellow; 
+                }
+            }
+            &.valid {
+                span {
+                    background: $green; 
+                }
+            }
         }
 
         .specifications {
             padding-left: 17px;
 
             li {
+                position: relative;
                 margin-bottom: 5px;
 
                 &:last-child {
                     margin: 0;
+                }
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    top: 5px;
+                    left: -17px;
+                    background: $lilac;
+                    border-radius: 100%;
+                }
+
+                &.error { 
+                    color: $red;
+                    &:before {
+                        background: $red;
+                    }
+                }
+                &.valid { 
+                    color: $green;
+                    &:before {
+                        background: $green;
+                    }
                 }
             }
         }

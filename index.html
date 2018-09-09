@@ -37,22 +37,22 @@
                         <input type="password" id="form-password" name="password" required />
                         <div class="password-requirements">
                             <div id="password-strength" class="strength">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                                <span class="step step-1"></span>
+                                <span class="step step-2"></span>
+                                <span class="step step-3"></span>
                             </div>
                             <div id="password-specifications" class="specifications">
                                 <ul>
-                                    <li>Pelo menos 6 caracteres</li>
-                                    <li>Pelo menos 1 letra maiúscula</li>
-                                    <li>Pelo menos 1 número</li>
+                                    <li class="spec six">Pelo menos 6 caracteres</li>
+                                    <li class="spec capital">Pelo menos 1 letra maiúscula</li>
+                                    <li class="spec number">Pelo menos 1 número</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="input-wrap password-confirm">
                         <label for="form-password-confirm">Confirme sua senha</label>
-                        <input type="password"  name="password-confirm" required />
+                        <input type="password" id="form-password-confirm"  name="password-confirm" required />
                     </div>
                     <div class="input-wrap submit">
                         <button type="button" class="btn-submit" disabled>
