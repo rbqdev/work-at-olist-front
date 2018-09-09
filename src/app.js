@@ -9,29 +9,52 @@ import './assets/css/main.scss';
     const intputPassworConfirm = document.getElementById('form-password-confirm');
     const passStrength = document.getElementById('password-strength');
     const passSpecifications = Array.from(document.querySelectorAll('#password-specifications .spec'));
+    const btnSubmit = document.getElementById('btn-submit');
+    const formValidations = {
+        name: false,
+        email: false,
+        password: false,
+        password_confirm: false,
+    };
 
     /** Global Handle Events */
     intputName.addEventListener( 'keyup', function(e){
         let isValid = validateInputName( e.target.value );
         toggleClassesValidAndError( this, isValid );
+        formValidations['name'] = isValid;
+        validateSubmitButton();
     });
+
     intputEmail.addEventListener( 'keyup', function(e){
         let isValid = validateInputEmail( e.target.value );
         toggleClassesValidAndError( this, isValid );
+        formValidations['email'] = isValid;
+        validateSubmitButton();
     });
+
     intputPassword.addEventListener( 'keyup', function(e){
         let isValid = validateInputPassword( e.target.value );
         toggleClassesValidAndError( this, isValid );
+        formValidations['password'] = isValid;
+        validateSubmitButton();
 
-        if( intputPassworConfirm.value > 0 ){
+        if( intputPassworConfirm.value.length > 0 ){
             intputPassworConfirm.value = '';
             intputPassworConfirm.parentNode.classList.remove('error');
             intputPassworConfirm.parentNode.classList.remove('valid');
         }
     });
+
     intputPassworConfirm.addEventListener( 'keyup', function(e){
         let isValid = validateInputPasswordConfirm( e.target.value );
         toggleClassesValidAndError( this, isValid );
+        formValidations['password_confirm'] = isValid;
+        validateSubmitButton();
+    });
+
+    btnSubmit.addEventListener( 'click', function(e){
+        e.preventDefault();
+        sendUser( this );
     });
 
     /** Validate Functions */
@@ -112,6 +135,24 @@ import './assets/css/main.scss';
 
     function validateInputPasswordConfirm( value ){
         return ( value === intputPassword.value );
+    }
+
+    function validateSubmitButton(){
+        for (const key in formValidations) {
+            if( !formValidations[ key ] ){
+                btnSubmit.setAttribute('disabled', 'disabled');
+                return;
+            }
+        }
+        btnSubmit.removeAttribute('disabled');
+    }
+
+    function sendUser( button ){
+        for (const key in formValidations) {
+            if( !formValidations[ key ] )
+                return;
+        }
+        button.classList.add('sending');
     }
 
 })();
