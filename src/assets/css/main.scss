@@ -45,7 +45,7 @@ ul {
 
     .ca--container {
         width: 509px;
-        height: 740px;
+        min-height: 478px;
         padding: 65px;
         background: #fff;
         border: 3px solid $gray;
@@ -78,14 +78,15 @@ ul {
                     justify-content: center;
         }
 
-        .subtitle {
-            display: block;
-            margin: 25px 0 40px;
-            font-size: 22px;
-            font-weight: 500;
-            color: $dark-blue;
-        }
+    }
 
+    .form-title {
+        display: block;
+        margin: 25px 0 40px;
+        font-size: 22px;
+        font-weight: 500;
+        color: $dark-blue;
+        text-align: center;
     }
 
 }

@@ -69,7 +69,7 @@ import './assets/css/main.scss';
     }
 
     function validateInputName( value ){
-        return ( value && value.length > 3 );
+        return ( value && value.length > 6 );
     }
 
     function validateInputEmail( value ){
@@ -153,6 +153,9 @@ import './assets/css/main.scss';
                 return;
         }
         button.classList.add('sending');
+        setTimeout(() => {
+            
+        }, 5000);
     }
 
 })();
