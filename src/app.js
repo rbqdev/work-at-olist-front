@@ -14,7 +14,7 @@ import './assets/css/main.scss';
         name: false,
         email: false,
         password: false,
-        password_confirm: false,
+        password_confirm: false
     };
 
     /** Global Handle Events */
@@ -154,8 +154,8 @@ import './assets/css/main.scss';
         }
         button.classList.add('sending');
         setTimeout(() => {
-            
-        }, 5000);
+            document.body.classList.add('form-sended');
+        }, 3000);
     }
 
 })();
