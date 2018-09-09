@@ -22,11 +22,17 @@ import './assets/css/main.scss';
     intputPassword.addEventListener( 'keyup', function(e){
         let isValid = validateInputPassword( e.target.value );
         toggleClassesValidAndError( this, isValid );
+
+        if( intputPassworConfirm.value > 0 ){
+            intputPassworConfirm.value = '';
+            intputPassworConfirm.parentNode.classList.remove('error');
+            intputPassworConfirm.parentNode.classList.remove('valid');
+        }
     });
-    // intputPassworConfirm.addEventListener( 'keyup', function(e){
-    //     let isValid = validatePasswordConfirmation( e.target.value );
-    //     toggleClassesValidAndError( this, isValid );
-    // });
+    intputPassworConfirm.addEventListener( 'keyup', function(e){
+        let isValid = validateInputPasswordConfirm( e.target.value );
+        toggleClassesValidAndError( this, isValid );
+    });
 
     /** Validate Functions */
     function toggleClassesValidAndError( element, condition ){
@@ -102,6 +108,10 @@ import './assets/css/main.scss';
         }
 
         return ( regexSixChars && regexCapital && regexNumber  );
+    }
+
+    function validateInputPasswordConfirm( value ){
+        return ( value === intputPassword.value );
     }
 
 })();
