@@ -9,6 +9,9 @@ module.exports = {
         filename: 'build.js',
         path: path.resolve(__dirname, 'dist')
     },
+    devServer: {
+        port: 8080
+    },
     module: {
         rules: [
             {
