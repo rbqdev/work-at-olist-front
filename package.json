@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint src/*.js",
     "prepush": "npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha tests/**/*.spec.js",
     "start": "webpack --config webpack.config.js",
     "build": "./node_modules/.bin/webpack --colors --progress",
     "watch": "npm run build -- --watch",

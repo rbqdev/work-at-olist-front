@@ -80,7 +80,7 @@ import "./assets/css/main.scss";
 
 	function validateInputPassword(value) {
 
-		const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&]{6,}$/).test(value);
+		const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
 		const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(value);
 		const regexNumber = new RegExp(/^(?=.*\d)/).test(value);
 
