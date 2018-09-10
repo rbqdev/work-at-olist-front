@@ -9,9 +9,7 @@ const form = {
 
 describe('CreateAccount', function(){
 
-
     describe('Verify Types', function(){
-
         it('should be string type', function () {
             form.name.should.be.a('string');
         })
@@ -27,25 +25,20 @@ describe('CreateAccount', function(){
     });
 
     describe('Validate Name', function(){
-
         it('should be true if name.length > 6', function () {
             let nameLength = (form.name.length > 6);
             nameLength.should.equal( true );
         })
-
     });
 
     describe('Validate Email', function(){
-
         it('should be `true` if email is valid', function () {
             let isValid = new RegExp("[^@]+@[^@]+\\.[^@]+").test(form.email);
             isValid.should.equal( true );
         })
-
     });
 
     describe('Validate Password', function(){
-        console.log( form.password )
         it('should be `true` if password is valid', function () {
 
             const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(form.password);
@@ -59,7 +52,6 @@ describe('CreateAccount', function(){
     });
 
     describe('Validate PasswordConfirmation', function(){
-        console.log( form.password )
         it('should be `true` if password is valid', function () {
             let isValid = ( form.password === form.password_confirm );
             isValid.should.equal( true );
