@@ -1,4 +1,3 @@
-import "./assets/css/main.scss";
 import api from "./assets/js/api.js";
 
 (() => {
