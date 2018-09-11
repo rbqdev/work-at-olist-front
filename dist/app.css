@@ -1,0 +1,261 @@
+/* Colors */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+html {
+  font-family: 'SF Text';
+  color: #767897; }
+
+html,
+body {
+  height: 100%; }
+
+body {
+  background: #eaeaf4; }
+
+ul {
+  list-style: none; }
+
+/* Main Style */
+.create-account-wrapper {
+  height: 100%; }
+  .create-account-wrapper .ca--container {
+    width: 509px;
+    min-height: 478px;
+    padding: 65px;
+    margin: 75px auto 0;
+    background: #fff;
+    border: 3px solid #f2f2f2;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column; }
+    .create-account-wrapper .ca--container > * {
+      width: 100%;
+      position: relative; }
+  .create-account-wrapper .ca--header {
+    text-align: center; }
+    .create-account-wrapper .ca--header .title {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center; }
+  .create-account-wrapper .form-title {
+    display: block;
+    margin: 25px 0 40px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #312e4f;
+    text-align: center; }
+  .create-account-wrapper .create-account .input-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-top: 20px; }
+    .create-account-wrapper .create-account .input-wrap:first-child {
+      margin: 0; }
+    .create-account-wrapper .create-account .input-wrap:focus {
+      border-color: #041bd4; }
+    .create-account-wrapper .create-account .input-wrap label {
+      margin-bottom: 5px; }
+    .create-account-wrapper .create-account .input-wrap input {
+      padding: 5px 12px;
+      min-height: 45px;
+      font-size: 1em;
+      border: 1px solid #b6b9d0;
+      -webkit-box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.05);
+      box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.05);
+      outline: none; }
+    .create-account-wrapper .create-account .input-wrap.valid input {
+      border-color: #00d598; }
+    .create-account-wrapper .create-account .input-wrap.error input {
+      border-color: #f9967f; }
+    .create-account-wrapper .create-account .input-wrap .btn-submit {
+      position: relative;
+      height: 52px;
+      border: 0;
+      background: #00d598;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer; }
+      .create-account-wrapper .create-account .input-wrap .btn-submit:not([disabled]):hover {
+        background: #08ecab; }
+      .create-account-wrapper .create-account .input-wrap .btn-submit .loader {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #00d598;
+        left: 0;
+        top: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: 0.2s all;
+        transition: 0.2s all; }
+        .create-account-wrapper .create-account .input-wrap .btn-submit .loader i {
+          width: 8px;
+          height: 8px;
+          display: block;
+          background: #fff;
+          border-radius: 100%;
+          margin: 0 5px; }
+      .create-account-wrapper .create-account .input-wrap .btn-submit.sending .loader {
+        opacity: 1;
+        visibility: visible; }
+        .create-account-wrapper .create-account .input-wrap .btn-submit.sending .loader i {
+          -webkit-animation: spinner .6s ease-in-out infinite;
+          animation: spinner .6s ease-in-out infinite; }
+          .create-account-wrapper .create-account .input-wrap .btn-submit.sending .loader i:nth-child(1) {
+            -webkit-animation-delay: 200ms;
+            animation-delay: 200ms; }
+          .create-account-wrapper .create-account .input-wrap .btn-submit.sending .loader i:nth-child(2) {
+            -webkit-animation-delay: 400ms;
+            animation-delay: 400ms; }
+          .create-account-wrapper .create-account .input-wrap .btn-submit.sending .loader i:nth-child(3) {
+            -webkit-animation-delay: 600ms;
+            animation-delay: 600ms; }
+      .create-account-wrapper .create-account .input-wrap .btn-submit:disabled {
+        opacity: 0.5;
+        cursor: initial; }
+  .create-account-wrapper .create-account .password-requirements .strength {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around; }
+    .create-account-wrapper .create-account .password-requirements .strength span {
+      height: 7px;
+      background: #eaeaf4;
+      border-radius: 5px;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      margin: 10px 0 15px; }
+      .create-account-wrapper .create-account .password-requirements .strength span:nth-child(2) {
+        margin-left: 8px;
+        margin-right: 8px; }
+    .create-account-wrapper .create-account .password-requirements .strength.error span:nth-child(1) {
+      background: #f9967f; }
+    .create-account-wrapper .create-account .password-requirements .strength.warning span:not(.step-3) {
+      background: #f8bd00; }
+    .create-account-wrapper .create-account .password-requirements .strength.valid span {
+      background: #00d598; }
+  .create-account-wrapper .create-account .password-requirements .specifications {
+    padding-left: 17px; }
+    .create-account-wrapper .create-account .password-requirements .specifications li {
+      position: relative;
+      margin-bottom: 5px; }
+      .create-account-wrapper .create-account .password-requirements .specifications li:last-child {
+        margin: 0; }
+      .create-account-wrapper .create-account .password-requirements .specifications li:before {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        top: 5px;
+        left: -17px;
+        background: #eaeaf4;
+        border-radius: 100%; }
+      .create-account-wrapper .create-account .password-requirements .specifications li.error {
+        color: #f9967f; }
+        .create-account-wrapper .create-account .password-requirements .specifications li.error:before {
+          background: #f9967f; }
+      .create-account-wrapper .create-account .password-requirements .specifications li.valid {
+        color: #00d598; }
+        .create-account-wrapper .create-account .password-requirements .specifications li.valid:before {
+          background: #00d598; }
+  .create-account-wrapper .process-done {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #312e4f;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; }
+    .create-account-wrapper .process-done > div {
+      margin-top: 92px;
+      max-width: 250px;
+      text-align: center; }
+    .create-account-wrapper .process-done h2 {
+      font-weight: 500;
+      margin: 15px 0; }
+    .create-account-wrapper .process-done p {
+      line-height: 28px; }
+
+.form-sended .create-account {
+  display: none; }
+
+.form-sended .process-done {
+  opacity: 1;
+  visibility: visible; }
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -webkit-transform: scale(1.4);
+    transform: scale(1.4); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes spinner {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -webkit-transform: scale(1.4);
+    transform: scale(1.4); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+/* Fonts */
+@font-face {
+  font-family: "SF Text";
+  font-weight: 400;
+  src: url(/af70caa8b33a56d2b61ab19fc6e4ec56.otf); }
+
+@font-face {
+  font-family: "SF Text";
+  font-weight: 500;
+  src: url(/62a30238eeb0c59d7592b3e52c04ba32.otf); }
+
+@font-face {
+  font-family: "SF Text";
+  font-weight: 700;
+  src: url(/2c551df090af08ae6eb93323377a94ea.otf); }
+

@@ -1,0 +1,96 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Olist | Frontend test</title>
+    <link rel="icon" type="image/x-icon" href="./assets/img/icon.png">
+    <meta name="description" content="Olist frontend test">
+    <meta name="author" content="Robson Braga de Queiroz">
+
+    <link rel="stylesheet" href="./app.css">
+
+</head>
+
+<body>
+
+    <main class="create-account-wrapper">
+
+        <div class="ca--container">
+
+            <div class="ca--header">
+                <h1 class="title"><img src="./assets/img/logo.svg" alt="Olist Logo" /></h1>
+            </div><!-- ca--header -->
+
+            <div id="ca--content" class="ca--content">
+
+                <div class="create-account">
+
+                    <h1 class="form-title">Crie sua Conta</h1>
+                    
+                    <form action="#" id="ca--form">
+                        <div class="input-wrap fullname">
+                            <label for="form-fullname">Nome completo</label>
+                            <input type="text" id="form-fullname" name="fullname" required />
+                        </div>
+                        <div class="input-wrap email">
+                            <label for="form-email">E-mail</label>
+                            <input type="email" id="form-email" name="email" required />
+                        </div>
+                        <div class="input-wrap password">
+                            <label for="form-password">Senha</label>
+                            <input type="password" id="form-password" name="password" required />
+                            <div class="password-requirements">
+                                <div id="password-strength" class="strength">
+                                    <span class="step step-1"></span>
+                                    <span class="step step-2"></span>
+                                    <span class="step step-3"></span>
+                                </div>
+                                <div id="password-specifications" class="specifications">
+                                    <ul>
+                                        <li class="spec six">Pelo menos 6 caracteres</li>
+                                        <li class="spec capital">Pelo menos 1 letra maiúscula</li>
+                                        <li class="spec number">Pelo menos 1 número</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-wrap password-confirm">
+                            <label for="form-password-confirm">Confirme sua senha</label>
+                            <input type="password" id="form-password-confirm"  name="password-confirm" required />
+                        </div>
+                        <div class="input-wrap submit">
+                            <button type="button" id="btn-submit" class="btn-submit" disabled>
+                                <span class="loader">
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                </span>
+                                <span class="text">Criar Conta</span>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <!-- create-account -->
+
+                <div class="process-done">
+                    <div>
+                        <img src="./assets/img/checkmark.svg" alt="Checkmark" />
+                        <h2>Tudo Certo</h2>
+                        <p>Verifique sua caixa de entrada para confirmar seu e-mail.</p>
+                    </div>
+                </div>
+
+            </div><!-- ca--content -->
+
+        </div><!-- ca--container -->
+
+    </main>
+
+    <script src="./build.js" defer></script>
+</body>
+
+</html>
