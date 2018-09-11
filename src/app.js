@@ -17,7 +17,6 @@ import api from "./assets/js/api.js";
 		password: false,
 		password_confirm: false
 	};
-	const apiObj = new api();
 
 	/** Global Handle Events */
 	intputName.addEventListener("keyup", function (e) {
@@ -163,7 +162,7 @@ import api from "./assets/js/api.js";
 			password: intputPassword.value
 		};
 
-		apiObj.post("/user", body, (response) => {
+		api.request("POST", "/user", body, (response) => {
 			if( response ){
 				document.body.classList.add("form-sended");
 			} else {

@@ -1,5 +1,6 @@
 const should = require('chai').should();
 const axios = require('axios');
+// const api = require('../src/assets/js/api.js'); -- ReferenceError: XMLHttpRequest is not defined When send request
 
 const baseURL = 'https://5b9701e429cbd70014a8fd28.mockapi.io/api';
 const form = {
@@ -61,14 +62,16 @@ describe('CreateAccount', function(){
     });
 
     describe('Create Account Api', function(){
-        it('should be return `Obj User Created` if user created successfuly', function () {
+        it('should be return `object` if user created successfuly', function () {
             let body = {
                 name: form.name,
                 email: form.email,
                 password: form.password
             }
+
             axios.post( baseURL + '/user', body ).then( response => {
-                response.should.be.a( 'object' );
+                if( response.data )
+                    response.data.should.be.a( 'object' );
             }).catch( error => {
                 console.log( error );
             });
