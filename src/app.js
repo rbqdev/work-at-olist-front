@@ -160,10 +160,10 @@ import api from "./assets/js/api.js";
 		let body = {
 			name: intputName.value,
 			email: intputEmail.value,
-			password: intputPassword.value,
-		}
+			password: intputPassword.value
+		};
 
-		apiObj.post('/user', body, (response) => {
+		apiObj.post("/user", body, (response) => {
 			if( response ){
 				document.body.classList.add("form-sended");
 			} else {
