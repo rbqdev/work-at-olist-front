@@ -1,4 +1,5 @@
 import "./assets/css/main.scss";
+import api from "./assets/js/api.js";
 
 (() => {
 
@@ -16,6 +17,7 @@ import "./assets/css/main.scss";
 		password: false,
 		password_confirm: false
 	};
+	const apiObj = new api();
 
 	/** Global Handle Events */
 	intputName.addEventListener("keyup", function (e) {
@@ -89,48 +91,48 @@ import "./assets/css/main.scss";
 		(regexNumber) ? countSteps++ : null;
 		(regexSixChars) ? countSteps++ : null;
 
-		function _removeAllClasses(steps = null, requirements = null) {
-			if (steps) {
-				passStrength.classList.remove("warning");
-				passStrength.classList.remove("error");
-				passStrength.classList.remove("valid");
-			}
-			if (requirements) {
-				for (const key in passSpecifications) {
-					passSpecifications[key].classList.remove("error");
-					passSpecifications[key].classList.remove("valid");
-				}
-			}
-		}
-
 		switch (countSteps) {
 		case 0:
-			_removeAllClasses("steps");
+			removeAllClassesPasswordValidation("steps");
 			break;
 		case 1:
-			_removeAllClasses("steps");
+			removeAllClassesPasswordValidation("steps");
 			passStrength.classList.add("error");
 			break;
 		case 2:
-			_removeAllClasses("steps");
+			removeAllClassesPasswordValidation("steps");
 			passStrength.classList.add("warning");
 			break;
 		case 3:
-			_removeAllClasses("steps");
+			removeAllClassesPasswordValidation("steps");
 			passStrength.classList.add("valid");
 			break;
 		}
 
 		if (countSteps > 0) {
-			_removeAllClasses(null, "requirements");
+			removeAllClassesPasswordValidation(null, "requirements");
 			(regexSixChars) ? passSpecifications[0].classList.add("valid") : passSpecifications[0].classList.add("error");
 			(regexCapital) ? passSpecifications[1].classList.add("valid") : passSpecifications[1].classList.add("error");
 			(regexNumber) ? passSpecifications[2].classList.add("valid") : passSpecifications[2].classList.add("error");
 		} else {
-			_removeAllClasses(null, "requirements");
+			removeAllClassesPasswordValidation(null, "requirements");
 		}
 
 		return (regexSixChars && regexCapital && regexNumber);
+	}
+
+	function removeAllClassesPasswordValidation( steps = null, requirements = null ) {
+		if (steps) {
+			passStrength.classList.remove("warning");
+			passStrength.classList.remove("error");
+			passStrength.classList.remove("valid");
+		}
+		if (requirements) {
+			for (const key in passSpecifications) {
+				passSpecifications[key].classList.remove("error");
+				passSpecifications[key].classList.remove("valid");
+			}
+		}
 	}
 
 	function validateInputPasswordConfirm(value) {
@@ -152,10 +154,22 @@ import "./assets/css/main.scss";
 			if (!formValidations[key])
 				return;
 		}
+
 		button.classList.add("sending");
-		setTimeout(() => {
-			document.body.classList.add("form-sended");
-		}, 3000);
+
+		let body = {
+			name: intputName.value,
+			email: intputEmail.value,
+			password: intputPassword.value,
+		}
+
+		apiObj.post('/user', body, (response) => {
+			if( response ){
+				document.body.classList.add("form-sended");
+			} else {
+				button.classList.remove("sending");
+			}
+		});
 	}
 
 })();
