@@ -1,5 +1,7 @@
 const should = require('chai').should();
+const axios = require('axios');
 
+const baseURL = 'https://5b9701e429cbd70014a8fd28.mockapi.io/api';
 const form = {
     name: 'Pink Floyd',
     email: 'pink.floyd@gmail.com',
@@ -56,7 +58,22 @@ describe('CreateAccount', function(){
             let isValid = ( form.password === form.password_confirm );
             isValid.should.equal( true );
         })
+    });
 
+    describe('Create Account Api', function(){
+        it('should be return `Obj User Created` if user created successfuly', function () {
+            let body = {
+                name: form.name,
+                email: form.email,
+                password: form.password
+            }
+            axios.post( baseURL + '/user', body ).then( response => {
+                response.should.be.a( 'object' );
+            }).catch( error => {
+                console.log( error );
+            });
+            
+        })
     });
 
 });
