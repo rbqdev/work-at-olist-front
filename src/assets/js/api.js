@@ -2,8 +2,8 @@ const baseURL = 'https://5b9701e429cbd70014a8fd28.mockapi.io/api';
 
 module.exports = {
 
-    request( method, endpoint = null, body = null, callback ) {
-        const xhr = new XMLHttpRequest();
+    request( method, endpoint = null, body = null, xhrInject = null, callback ) {
+        const xhr = ( !xhrInject ) ? new XMLHttpRequest() : new xhrInject();
         xhr.open( method, baseURL + endpoint, true);
         xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
         xhr.onload = function () {
@@ -18,7 +18,6 @@ module.exports = {
             xhr.send( JSON.stringify(body) );
         else
             xhr.send(null);
-
     }
 
 }

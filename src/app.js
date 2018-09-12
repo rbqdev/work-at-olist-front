@@ -20,22 +20,22 @@ import api from "./assets/js/api.js";
 	/** Global Handle Events */
 	intputName.addEventListener("keyup", function (e) {
 		let isValid = validateInputName(e.target.value);
-		toggleClassesValidAndError(this, isValid);
 		formValidations["name"] = isValid;
+		toggleClassesValidAndError(this, isValid);
 		validateSubmitButton();
 	});
 
 	intputEmail.addEventListener("keyup", function (e) {
 		let isValid = validateInputEmail(e.target.value);
-		toggleClassesValidAndError(this, isValid);
 		formValidations["email"] = isValid;
+		toggleClassesValidAndError(this, isValid);
 		validateSubmitButton();
 	});
 
 	intputPassword.addEventListener("keyup", function (e) {
 		let isValid = validateInputPassword(e.target.value);
-		toggleClassesValidAndError(this, isValid);
 		formValidations["password"] = isValid;
+		toggleClassesValidAndError(this, isValid);
 		validateSubmitButton();
 
 		if (intputPassworConfirm.value.length > 0) {
@@ -47,8 +47,8 @@ import api from "./assets/js/api.js";
 
 	intputPassworConfirm.addEventListener("keyup", function (e) {
 		let isValid = validateInputPasswordConfirm(e.target.value);
-		toggleClassesValidAndError(this, isValid);
 		formValidations["password_confirm"] = isValid;
+		toggleClassesValidAndError(this, isValid);
 		validateSubmitButton();
 	});
 
@@ -73,9 +73,7 @@ import api from "./assets/js/api.js";
 	}
 
 	function validateInputEmail(value) {
-		const regexEmail = new RegExp("[^@]+@[^@]+\\.[^@]+").test(value);
-
-		return (value && regexEmail);
+		return (value && new RegExp("[^@]+@[^@]+\\.[^@]+").test(value));
 	}
 
 	function validateInputPassword(value) {
@@ -161,12 +159,11 @@ import api from "./assets/js/api.js";
 			password: intputPassword.value
 		};
 
-		api.request("POST", "/user", body, (response) => {
-			if( response ){
+		api.request("POST", "/user", body, null, (response) => {
+			if( response )
 				document.body.classList.add("form-sended");
-			} else {
-				button.classList.remove("sending");
-			}
+
+			button.classList.remove("sending");
 		});
 	}
 

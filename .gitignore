@@ -1,4 +1,6 @@
 # Default configs based on Node
+dist/
+
 # Logs
 logs
 *.log
