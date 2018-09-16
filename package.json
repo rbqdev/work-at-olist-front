@@ -1,6 +1,6 @@
 {
   "name": "work-at-olist-front",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Application form for a frontend test on Olist ",
   "main": "index.js",
   "scripts": {
