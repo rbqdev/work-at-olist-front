@@ -29,48 +29,12 @@
                 <div class="create-account">
 
                     <h1 class="form-title">Crie sua Conta</h1>
-                    
+
                     <form action="#" id="ca--form">
-                        <div class="input-wrap fullname">
-                            <label for="form-fullname">Nome completo</label>
-                            <input type="text" id="form-fullname" name="fullname" required />
-                        </div>
-                        <div class="input-wrap email">
-                            <label for="form-email">E-mail</label>
-                            <input type="email" id="form-email" name="email" required />
-                        </div>
-                        <div class="input-wrap password">
-                            <label for="form-password">Senha</label>
-                            <input type="password" id="form-password" name="password" required />
-                            <div class="password-requirements">
-                                <div id="password-strength" class="strength">
-                                    <span class="step step-1"></span>
-                                    <span class="step step-2"></span>
-                                    <span class="step step-3"></span>
-                                </div>
-                                <div id="password-specifications" class="specifications">
-                                    <ul>
-                                        <li class="spec six">Pelo menos 6 caracteres</li>
-                                        <li class="spec capital">Pelo menos 1 letra maiúscula</li>
-                                        <li class="spec number">Pelo menos 1 número</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-wrap password-confirm">
-                            <label for="form-password-confirm">Confirme sua senha</label>
-                            <input type="password" id="form-password-confirm"  name="password-confirm" required />
-                        </div>
-                        <div class="input-wrap submit">
-                            <button type="button" id="btn-submit" class="btn-submit" disabled>
-                                <span class="loader">
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                </span>
-                                <span class="text">Criar Conta</span>
-                            </button>
-                        </div>
+                        <input-component id="component-fullname" label="Nome Completo" type="text" name="fullname" required></input-component>
+                        <input-component id="component-email" label="E-mail" type="email" name="email" required></input-component>
+                        <password-component label="Senha"></password-component>
+                        <submit-component label="Criar Conta" disabled="true"></submit-component>
                     </form>
 
                 </div>
