@@ -39,6 +39,20 @@ If you are in development with the project, you can use `watch`  to build the pr
 npm run watch
 ```
 
+### How use the components of project?
+This project use web components how custom inputs, you can create any instances of component inside a form tag, just call the following HTML commands in your code:
+
+HTML Component | Description | Params / Attributes
+------------ | ------------- | -------------
+`<input-component></input-component>` | Just a custom `<input />` tag | `label`, `type`, `name`( name also is ID ), `value`, `required` )
+`<password-component></passoword-component>` | Custom tag's password. This component contains two password's inputs and a div to measure the strength of the password  | `label`
+`<submit-component></submit-component>` | Just a custom `<button></button>` tag | `label`, `disabled` )
+
+Calling a component:
+```
+<input-component label="Input Test" type="text" name="input-test" required></input-component>
+```
+
 ## Demo
 You can see a demo of this project: [Link Here](https://glacial-gorge-64557.herokuapp.com/)
 
