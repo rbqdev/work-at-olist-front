@@ -34,14 +34,18 @@ import "./assets/js/components/submit.js";
 		formValidations.email.isValid = componentEmail.inputValidated();
 		validateSubmitButton();
 	});
+
+	// Return object on passwordValidated to validate both inputs passwords
 	inputPassword.addEventListener("keyup", function (e) {
 		formValidations.password.value = e.target.value;
-		formValidations.password.isValid = componentPassword.passwordValidated();
+		formValidations.password.isValid = componentPassword.passwordValidated().passValid;
+		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
 		validateSubmitButton();
 	});
 	inputPasswordConfirm.addEventListener("keyup", function (e) {
 		formValidations.password_confirm.value = e.target.value;
-		formValidations.password_confirm.isValid = componentPassword.passwordValidated("confirm");
+		formValidations.password.isValid = componentPassword.passwordValidated().passValid;
+		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
 		validateSubmitButton();
 	});
 

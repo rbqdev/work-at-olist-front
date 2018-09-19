@@ -44,6 +44,7 @@ export class InputPasswordComponent extends HTMLElement {
             // If exists values
             if( this.inputPasswordConfirm.value ){
                 this.inputPasswordConfirm.value = "";
+                this.passwordConfirmValid = false;
                 this.removeValidateInputClasses( this.inputPasswordConfirm );
             }
 		});
@@ -198,8 +199,12 @@ export class InputPasswordComponent extends HTMLElement {
         `;
 	}
 
-	passwordValidated(confirm = null) {
-		return (!confirm) ? this.passwordValid : this.passwordConfirmValid;
+	passwordValidated() {
+        let data = {
+            passValid: this.passwordValid,
+            passConfirmValid: this.passwordConfirmValid
+        }
+		return data;
 	}
 
 	toggleClassesValidAndError(element, condition) {
