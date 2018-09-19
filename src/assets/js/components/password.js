@@ -38,7 +38,14 @@ export class InputPasswordComponent extends HTMLElement {
 		this.inputPassword = this.inputComponent.querySelector(".input-wrap.password input");
 		this.inputPassword.addEventListener("keyup", () => {
 			this.passwordValid = this.validateInputPassword(this.inputPassword.value);
-			this.toggleClassesValidAndError(this.inputPassword, this.passwordValid);
+            this.toggleClassesValidAndError(this.inputPassword, this.passwordValid);
+
+            // Remove class validations of Password Confirm
+            // If exists values
+            if( this.inputPasswordConfirm.value ){
+                this.inputPasswordConfirm.value = "";
+                this.removeValidateInputClasses( this.inputPasswordConfirm );
+            }
 		});
 
 		this.inputPasswordConfirm = this.inputComponent.querySelector(".input-wrap.password-confirm input");
@@ -196,14 +203,21 @@ export class InputPasswordComponent extends HTMLElement {
 	}
 
 	toggleClassesValidAndError(element, condition) {
-		if (condition) {
-			element.parentNode.classList.add("valid");
-			element.parentNode.classList.remove("error");
-		} else {
-			element.parentNode.classList.add("error");
-			element.parentNode.classList.remove("valid");
-		}
-	}
+        if( element.parentNode )
+            if (condition) {
+                element.parentNode.classList.add("valid");
+                element.parentNode.classList.remove("error");
+            } else {
+                element.parentNode.classList.add("error");
+                element.parentNode.classList.remove("valid");
+            }
+    }
+
+    removeValidateInputClasses( element ){
+        if( element.parentNode )
+            element.parentNode.classList.remove("valid");
+            element.parentNode.classList.remove("error");
+    }
 
 	validateInputPassword(value) {
 		const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
