@@ -51,7 +51,7 @@ export class InputPasswordComponent extends HTMLElement {
 
 		this.inputPasswordConfirm = this.inputComponent.querySelector(".input-wrap.password-confirm input");
 		this.inputPasswordConfirm.addEventListener("keyup", () => {
-			this.passwordConfirmValid = this.validateInputPasswordConfirm(this.inputPasswordConfirm.value, this.inputPassword.value);
+			this.passwordConfirmValid = this.validateInputPasswordConfirm(this.inputPassword.value, this.inputPasswordConfirm.value);
 			this.toggleClassesValidAndError(this.inputPasswordConfirm, this.passwordConfirmValid);
 		});
 	}
@@ -200,15 +200,14 @@ export class InputPasswordComponent extends HTMLElement {
 	}
 
 	passwordValidated() {
-        let data = {
+		return {
             passValid: this.passwordValid,
             passConfirmValid: this.passwordConfirmValid
-        }
-		return data;
+        };
 	}
 
 	toggleClassesValidAndError(element, condition) {
-        if( element.parentNode )
+        if( element.parentNode ){
             if (condition) {
                 element.parentNode.classList.add("valid");
                 element.parentNode.classList.remove("error");
@@ -216,12 +215,14 @@ export class InputPasswordComponent extends HTMLElement {
                 element.parentNode.classList.add("error");
                 element.parentNode.classList.remove("valid");
             }
+        }
     }
 
     removeValidateInputClasses( element ){
-        if( element.parentNode )
+        if( element.parentNode ){
             element.parentNode.classList.remove("valid");
             element.parentNode.classList.remove("error");
+        }
     }
 
 	validateInputPassword(value) {
@@ -263,8 +264,8 @@ export class InputPasswordComponent extends HTMLElement {
 
 		return (regexSixChars && regexCapital && regexNumber);
 	}
-	validateInputPasswordConfirm(value1, value2) {
-		return (value1 === value2);
+	validateInputPasswordConfirm(password, passwordConfirm) {
+		return (password === passwordConfirm);
 	}
 
 	removeAllClassesPasswordValidation(steps = null, requirements = null) {
