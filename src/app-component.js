@@ -65,10 +65,9 @@ import "./assets/js/components/submit.js";
 	}
 
 	function sendUser(button) {
-		for (const key in formValidations) {
+		for (const key in formValidations)
 			if (!formValidations[key].isValid)
 				return;
-		}
 
 		button.classList.add("sending");
 

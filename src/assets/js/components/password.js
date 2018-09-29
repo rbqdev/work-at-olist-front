@@ -90,10 +90,10 @@ export class InputPasswordComponent extends HTMLElement {
                     box-sizing: border-box;
                 }
                 .input-wrap.valid input {
-                    border-color: #00d598;
+                    border-color: var(--color-valid, #00d598);
                 }
                 .input-wrap.error input {
-                    border-color: #f9967f;
+                    border-color: var(--color-error, #f9967f);
                 }
                 ul {
                     padding: 0;
@@ -228,39 +228,36 @@ export class InputPasswordComponent extends HTMLElement {
 	validateInputPassword(value) {
 		const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
 		const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(value);
-		const regexNumber = new RegExp(/^(?=.*\d)/).test(value);
+        const regexNumber = new RegExp(/^(?=.*\d)/).test(value);
 
 		let countSteps = 0;
 		(regexCapital) ? countSteps++ : null;
 		(regexNumber) ? countSteps++ : null;
-		(regexSixChars) ? countSteps++ : null;
+        (regexSixChars) ? countSteps++ : null;
 
-		switch (countSteps) {
-			case 0:
-				this.removeAllClassesPasswordValidation("steps");
-				break;
-			case 1:
-				this.removeAllClassesPasswordValidation("steps");
-				this.passStrength.classList.add("error");
-				break;
-			case 2:
-				this.removeAllClassesPasswordValidation("steps");
-				this.passStrength.classList.add("warning");
-				break;
-			case 3:
-				this.removeAllClassesPasswordValidation("steps");
-				this.passStrength.classList.add("valid");
-				break;
-		}
+        this.removeAllClassesPasswordValidation("steps");
+        this.removeAllClassesPasswordValidation(null, "requirements");
 
 		if (countSteps > 0) {
-			this.removeAllClassesPasswordValidation(null, "requirements");
-			(regexSixChars) ? this.passSpecifications[0].classList.add("valid") : this.passSpecifications[0].classList.add("error");
-			(regexCapital) ? this.passSpecifications[1].classList.add("valid") : this.passSpecifications[1].classList.add("error");
-			(regexNumber) ? this.passSpecifications[2].classList.add("valid") : this.passSpecifications[2].classList.add("error");
-		} else {
-			this.removeAllClassesPasswordValidation(null, "requirements");
-		}
+            // Strength Steps
+            switch (countSteps) {
+                case 1:
+                    this.passStrength.classList.add("error");
+                    break;
+                case 2:
+                    this.passStrength.classList.add("warning");
+                    break;
+                case 3:
+                    this.passStrength.classList.add("valid");
+                    break;
+            }
+
+            // Strength Requirements
+            let spec = this.passSpecifications;
+			(regexSixChars) ? spec[0].classList.add("valid") : spec[0].classList.add("error");
+			(regexCapital) ? spec[1].classList.add("valid") : spec[1].classList.add("error");
+			(regexNumber) ? spec[2].classList.add("valid") : spec[2].classList.add("error");
+        }
 
 		return (regexSixChars && regexCapital && regexNumber);
 	}
@@ -269,17 +266,12 @@ export class InputPasswordComponent extends HTMLElement {
 	}
 
 	removeAllClassesPasswordValidation(steps = null, requirements = null) {
-		if (steps) {
-			this.passStrength.classList.remove("warning");
-			this.passStrength.classList.remove("error");
-			this.passStrength.classList.remove("valid");
-		}
-		if (requirements) {
-			for (const key in this.passSpecifications) {
-				this.passSpecifications[key].classList.remove("error");
-				this.passSpecifications[key].classList.remove("valid");
-			}
-		}
+		if (steps)
+			this.passStrength.classList.remove("warning", "error", "valid");
+
+		if (requirements)
+			for (const key in this.passSpecifications)
+				this.passSpecifications[key].classList.remove("error", "valid");
 	}
 
 }
