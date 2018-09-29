@@ -44,8 +44,8 @@ export class SubmitComponent extends HTMLElement {
                     position: relative;
                     height: 52px;
                     border: 0;
-                    background: #00d598;
-                    color: #fff;
+                    background: var(--submit-bg, #00d598);
+                    color: var(--submit-color, #fff);
                     font-size: 16px;
                     font-weight: 500;
                     outline: none;

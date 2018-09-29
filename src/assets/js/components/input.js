@@ -81,10 +81,10 @@ export class InputComponent extends HTMLElement {
                     box-sizing: border-box;
                 }
                 .input-wrap.valid input {
-                    border-color: #00d598;
+                    border-color: var(--color-valid, #00d598);
                 }
                 .input-wrap.error input {
-                    border-color: #f9967f;
+                    border-color: var(--color-error, #f9967f);
                 }
             </style>
 
