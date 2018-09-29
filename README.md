@@ -13,8 +13,7 @@ npm install
 npm run server
 ```
 
-Here you should say what actually happens when you execute `npm run server`.
-
+Here what should say what actually happens when you execute `npm run server`. And after this will open tab on your browser
 ```shell
 ｢wds｣: Project is running at http://localhost:8080/
 ```
@@ -33,7 +32,7 @@ To build the project, you need only run the following comand
 ```shell
 npm run build
 ```
-If you are in development with the project, you can use `watch`  to build the projectt always you change something.
+If you are in development with the project, you can use `watch`  to build the  always you change something.
 
 ```shell
 npm run watch
@@ -44,13 +43,21 @@ This project use web components how custom inputs, you can create any instances 
 
 HTML Component | Description | Params / Attributes
 ------------ | ------------- | -------------
-`<input-component></input-component>` | Just a custom `<input />` tag | `label`, `type`, `name`( name also is ID ), `value`, `required` )
+`<input-component></input-component>` | Custom `<input />` tag with validation and error classes | `label`, `type`, `name`( name also is ID ), `value`, `required` )
 `<password-component></passoword-component>` | Custom tag's password. This component contains two password's inputs and a div to measure the strength of the password  | `label`
-`<submit-component></submit-component>` | Just a custom `<button></button>` tag | `label`, `disabled` )
+`<submit-component></submit-component>` | Custom `<button></button>` tag with validation and error classes | `label`, `disabled` )
 
 Calling a component:
 ```
 <input-component label="Input Test" type="text" name="input-test" required></input-component>
+```
+
+You can change some component's border colors of validation, error and submit background with simple css using a custom variable of a outside css file or style. Like this:
+```
+input-component {
+    --color-valid: green;
+    --color-error: red;
+}
 ```
 
 ## Demo
