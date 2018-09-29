@@ -1,54 +1,51 @@
 import api from "./assets/js/api.js";
+import "./assets/js/components/input.js";
+import "./assets/js/components/password.js";
+import "./assets/js/components/submit.js";
 
 (() => {
 
-	/** Global Attributes */
-	const intputName = document.getElementById("form-fullname");
-	const intputEmail = document.getElementById("form-email");
-	const intputPassword = document.getElementById("form-password");
-	const intputPassworConfirm = document.getElementById("form-password-confirm");
-	const passStrength = document.getElementById("password-strength");
-	const passSpecifications = Array.from(document.querySelectorAll("#password-specifications .spec"));
-	const btnSubmit = document.getElementById("btn-submit");
+	const componentFullname = document.getElementById("component-fullname");
+	const inputName = componentFullname.shadowRoot.getElementById("input-c-fullname");
+
+	const componentEmail = document.getElementById("component-email");
+	const inputEmail = componentEmail.shadowRoot.getElementById("input-c-email");
+
+	const componentPassword = document.getElementsByTagName("password-component")[0];
+	const inputPassword = componentPassword.shadowRoot.getElementById("input-c-password");
+	const inputPasswordConfirm = componentPassword.shadowRoot.getElementById("input-c-password-confirm");
+
+	const btnSubmit = document.getElementsByTagName("submit-component")[0].shadowRoot.getElementById("btn-submit");
+
 	const formValidations = {
-		name: false,
-		email: false,
-		password: false,
-		password_confirm: false
+		name: { value: null, isValid: false },
+		email: { value: null, isValid: false },
+		password: { value: null, isValid: false },
+		password_confirm: { value: null, isValid: false }
 	};
 
-	/** Global Handle Events */
-	intputName.addEventListener("keyup", function (e) {
-		let isValid = validateInputName(e.target.value);
-		formValidations["name"] = isValid;
-		toggleClassesValidAndError(this, isValid);
+	inputName.addEventListener("keyup", function (e) {
+		formValidations.name.value = e.target.value;
+		formValidations.name.isValid = componentFullname.inputValidated();
+		validateSubmitButton();
+	});
+	inputEmail.addEventListener("keyup", function (e) {
+		formValidations.email.value = e.target.value;
+		formValidations.email.isValid = componentEmail.inputValidated();
 		validateSubmitButton();
 	});
 
-	intputEmail.addEventListener("keyup", function (e) {
-		let isValid = validateInputEmail(e.target.value);
-		formValidations["email"] = isValid;
-		toggleClassesValidAndError(this, isValid);
+	// Return object on passwordValidated to validate both inputs passwords
+	inputPassword.addEventListener("keyup", function (e) {
+		formValidations.password.value = e.target.value;
+		formValidations.password.isValid = componentPassword.passwordValidated().passValid;
+		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
 		validateSubmitButton();
 	});
-
-	intputPassword.addEventListener("keyup", function (e) {
-		let isValid = validateInputPassword(e.target.value);
-		formValidations["password"] = isValid;
-		toggleClassesValidAndError(this, isValid);
-		validateSubmitButton();
-
-		if (intputPassworConfirm.value.length > 0) {
-			intputPassworConfirm.value = "";
-			intputPassworConfirm.parentNode.classList.remove("error");
-			intputPassworConfirm.parentNode.classList.remove("valid");
-		}
-	});
-
-	intputPassworConfirm.addEventListener("keyup", function (e) {
-		let isValid = validateInputPasswordConfirm(e.target.value);
-		formValidations["password_confirm"] = isValid;
-		toggleClassesValidAndError(this, isValid);
+	inputPasswordConfirm.addEventListener("keyup", function (e) {
+		formValidations.password_confirm.value = e.target.value;
+		formValidations.password.isValid = componentPassword.passwordValidated().passValid;
+		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
 		validateSubmitButton();
 	});
 
@@ -57,87 +54,9 @@ import api from "./assets/js/api.js";
 		sendUser(this);
 	});
 
-	/** Validate Functions */
-	function toggleClassesValidAndError(element, condition) {
-		if (condition) {
-			element.parentNode.classList.add("valid");
-			element.parentNode.classList.remove("error");
-		} else {
-			element.parentNode.classList.add("error");
-			element.parentNode.classList.remove("valid");
-		}
-	}
-
-	function validateInputName(value) {
-		return (value && value.length > 6);
-	}
-
-	function validateInputEmail(value) {
-		return (value && new RegExp("[^@]+@[^@]+\\.[^@]+").test(value));
-	}
-
-	function validateInputPassword(value) {
-
-		const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
-		const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(value);
-		const regexNumber = new RegExp(/^(?=.*\d)/).test(value);
-
-		let countSteps = 0;
-		(regexCapital) ? countSteps++ : null;
-		(regexNumber) ? countSteps++ : null;
-		(regexSixChars) ? countSteps++ : null;
-
-		switch (countSteps) {
-		case 0:
-			removeAllClassesPasswordValidation("steps");
-			break;
-		case 1:
-			removeAllClassesPasswordValidation("steps");
-			passStrength.classList.add("error");
-			break;
-		case 2:
-			removeAllClassesPasswordValidation("steps");
-			passStrength.classList.add("warning");
-			break;
-		case 3:
-			removeAllClassesPasswordValidation("steps");
-			passStrength.classList.add("valid");
-			break;
-		}
-
-		if (countSteps > 0) {
-			removeAllClassesPasswordValidation(null, "requirements");
-			(regexSixChars) ? passSpecifications[0].classList.add("valid") : passSpecifications[0].classList.add("error");
-			(regexCapital) ? passSpecifications[1].classList.add("valid") : passSpecifications[1].classList.add("error");
-			(regexNumber) ? passSpecifications[2].classList.add("valid") : passSpecifications[2].classList.add("error");
-		} else {
-			removeAllClassesPasswordValidation(null, "requirements");
-		}
-
-		return (regexSixChars && regexCapital && regexNumber);
-	}
-
-	function removeAllClassesPasswordValidation( steps = null, requirements = null ) {
-		if (steps) {
-			passStrength.classList.remove("warning");
-			passStrength.classList.remove("error");
-			passStrength.classList.remove("valid");
-		}
-		if (requirements) {
-			for (const key in passSpecifications) {
-				passSpecifications[key].classList.remove("error");
-				passSpecifications[key].classList.remove("valid");
-			}
-		}
-	}
-
-	function validateInputPasswordConfirm(value) {
-		return (value === intputPassword.value);
-	}
-
 	function validateSubmitButton() {
 		for (const key in formValidations) {
-			if (!formValidations[key]) {
+			if (!formValidations[key].isValid) {
 				btnSubmit.setAttribute("disabled", "disabled");
 				return;
 			}
@@ -146,21 +65,20 @@ import api from "./assets/js/api.js";
 	}
 
 	function sendUser(button) {
-		for (const key in formValidations) {
-			if (!formValidations[key])
+		for (const key in formValidations)
+			if (!formValidations[key].isValid)
 				return;
-		}
 
 		button.classList.add("sending");
 
 		let body = {
-			name: intputName.value,
-			email: intputEmail.value,
-			password: intputPassword.value
+			name: formValidations.name.value,
+			email: formValidations.email.value,
+			password: formValidations.password.value
 		};
 
 		api.request("POST", "/user", body, null, (response) => {
-			if( response )
+			if (response)
 				document.body.classList.add("form-sended");
 
 			button.classList.remove("sending");
