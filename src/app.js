@@ -1,21 +1,20 @@
-import api from "./assets/js/api.js";
+import "./assets/css";
 import "./assets/js/components/input.js";
 import "./assets/js/components/password.js";
 import "./assets/js/components/submit.js";
+import api from "./assets/js/api.js";
 
 (() => {
 
 	const componentFullname = document.getElementById("component-fullname");
-	const inputName = componentFullname.shadowRoot.getElementById("input-c-fullname");
-
+	const componentPassword = document.getElementById("component-password");
 	const componentEmail = document.getElementById("component-email");
-	const inputEmail = componentEmail.shadowRoot.getElementById("input-c-email");
 
-	const componentPassword = document.getElementsByTagName("password-component")[0];
+	const inputName = componentFullname.shadowRoot.getElementById("input-c-fullname");
+	const inputEmail = componentEmail.shadowRoot.getElementById("input-c-email");
 	const inputPassword = componentPassword.shadowRoot.getElementById("input-c-password");
 	const inputPasswordConfirm = componentPassword.shadowRoot.getElementById("input-c-password-confirm");
-
-	const btnSubmit = document.getElementsByTagName("submit-component")[0].shadowRoot.getElementById("btn-submit");
+	const btnSubmit = document.getElementById("component-submit").shadowRoot.getElementById("btn-submit");
 
 	const formValidations = {
 		name: { value: null, isValid: false },
@@ -48,7 +47,6 @@ import "./assets/js/components/submit.js";
 		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
 		validateSubmitButton();
 	});
-
 	btnSubmit.addEventListener("click", function (e) {
 		e.preventDefault();
 		sendUser(this);
