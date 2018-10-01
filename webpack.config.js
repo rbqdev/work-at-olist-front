@@ -1,8 +1,11 @@
 const path = require('path');
+const mode = process.env.NODE_ENV !== 'production';
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: mode ? 'development' : 'production',
     entry: {
         app: './src/app.js'
     },
@@ -20,6 +23,15 @@ module.exports = {
             chunkFilename: "[id].css"
         })
     ],
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true
+            }),
+            new OptimizeCSSPlugin({})
+        ]
+    },
     module: {
         rules: [
             {
@@ -34,7 +46,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.s?[ac]ss$/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
