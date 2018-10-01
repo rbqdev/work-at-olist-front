@@ -2,85 +2,110 @@ import "./assets/css";
 import "./assets/js/components/input.js";
 import "./assets/js/components/password.js";
 import "./assets/js/components/submit.js";
-import api from "./assets/js/api.js";
+import Api from "./assets/js/api";
 
-(() => {
+class App {
 
-	const componentFullname = document.getElementById("component-fullname");
-	const componentPassword = document.getElementById("component-password");
-	const componentEmail = document.getElementById("component-email");
+	constructor(){
 
-	const inputName = componentFullname.shadowRoot.getElementById("input-c-fullname");
-	const inputEmail = componentEmail.shadowRoot.getElementById("input-c-email");
-	const inputPassword = componentPassword.shadowRoot.getElementById("input-c-password");
-	const inputPasswordConfirm = componentPassword.shadowRoot.getElementById("input-c-password-confirm");
-	const btnSubmit = document.getElementById("component-submit").shadowRoot.getElementById("btn-submit");
+		this.componentFullname = document.getElementById("component-fullname");
+		this.componentPassword = document.getElementById("component-password");
+		this.componentEmail = document.getElementById("component-email");
+		this.componentSubmit = document.getElementById("component-submit");
 
-	const formValidations = {
-		name: { value: null, isValid: false },
-		email: { value: null, isValid: false },
-		password: { value: null, isValid: false },
-		password_confirm: { value: null, isValid: false }
-	};
+		this.inputName = this.componentFullname.shadowRoot.getElementById("input-c-fullname");
+		this.inputEmail = this.componentEmail.shadowRoot.getElementById("input-c-email");
+		this.inputPassword = this.componentPassword.shadowRoot.getElementById("input-c-password");
+		this.inputPasswordConfirm = this.componentPassword.shadowRoot.getElementById("input-c-password-confirm");
+		this.btnSubmit = this.componentSubmit.shadowRoot.getElementById("btn-submit");
 
-	inputName.addEventListener("keyup", function (e) {
-		formValidations.name.value = e.target.value;
-		formValidations.name.isValid = componentFullname.inputValidated();
-		validateSubmitButton();
-	});
-	inputEmail.addEventListener("keyup", function (e) {
-		formValidations.email.value = e.target.value;
-		formValidations.email.isValid = componentEmail.inputValidated();
-		validateSubmitButton();
-	});
-
-	// Return object on passwordValidated to validate both inputs passwords
-	inputPassword.addEventListener("keyup", function (e) {
-		formValidations.password.value = e.target.value;
-		formValidations.password.isValid = componentPassword.passwordValidated().passValid;
-		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
-		validateSubmitButton();
-	});
-	inputPasswordConfirm.addEventListener("keyup", function (e) {
-		formValidations.password_confirm.value = e.target.value;
-		formValidations.password.isValid = componentPassword.passwordValidated().passValid;
-		formValidations.password_confirm.isValid = componentPassword.passwordValidated().passConfirmValid;
-		validateSubmitButton();
-	});
-	btnSubmit.addEventListener("click", function (e) {
-		e.preventDefault();
-		sendUser(this);
-	});
-
-	function validateSubmitButton() {
-		for (const key in formValidations) {
-			if (!formValidations[key].isValid) {
-				btnSubmit.setAttribute("disabled", "disabled");
-				return;
-			}
-		}
-		btnSubmit.removeAttribute("disabled");
-	}
-
-	function sendUser(button) {
-		for (const key in formValidations)
-			if (!formValidations[key].isValid)
-				return;
-
-		button.classList.add("sending");
-
-		let body = {
-			name: formValidations.name.value,
-			email: formValidations.email.value,
-			password: formValidations.password.value
+		this.formValidations = {
+			name: { value: null, isValid: false },
+			email: { value: null, isValid: false },
+			password: { value: null, isValid: false },
+			password_confirm: { value: null, isValid: false }
 		};
 
-		api.request("POST", "/user", body, null, (response) => {
-			if (response)
-				document.body.classList.add("form-sended");
+		this.formLocked = false;
 
-			button.classList.remove("sending");
+		this.handleInputEvents();
+
+	}
+
+	handleInputEvents(){
+		this.inputName.addEventListener("keyup", (e) => {
+			this.formValidations.name.value = e.target.value;
+			this.formValidations.name.isValid = this.componentFullname.inputValidated();
+			this.validateSubmitButton();
+		});
+		this.inputEmail.addEventListener("keyup", (e) => {
+			this.formValidations.email.value = e.target.value;
+			this.formValidations.email.isValid = this.componentEmail.inputValidated();
+			this.validateSubmitButton();
+		});
+		// Return object on passwordValidated to validate both inputs passwords
+		this.inputPassword.addEventListener("keyup", (e) => {
+			this.formValidations.password.value = e.target.value;
+			this.formValidations.password.isValid = this.componentPassword.passwordValidated().passValid;
+			this.formValidations.password_confirm.isValid = this.componentPassword.passwordValidated().passConfirmValid;
+			this.validateSubmitButton();
+		});
+		this.inputPasswordConfirm.addEventListener("keyup", (e) => {
+			this.formValidations.password_confirm.value = e.target.value;
+			this.formValidations.password.isValid = this.componentPassword.passwordValidated().passValid;
+			this.formValidations.password_confirm.isValid = this.componentPassword.passwordValidated().passConfirmValid;
+			this.validateSubmitButton();
+		});
+		this.btnSubmit.addEventListener("click", (e) => {
+			e.preventDefault();
+
+			if( !this.formLocked )
+				this.createUser();
 		});
 	}
 
-})();
+	validateSubmitButton() {
+		if(!this.validateDataBeforeSend())
+			this.btnSubmit.setAttribute("disabled", "disabled");
+		else
+			this.btnSubmit.removeAttribute("disabled");
+	}
+
+	validateDataBeforeSend(){
+		for (const key in this.formValidations)
+			if (!this.formValidations[key].isValid)
+				return;
+
+		return true;
+	}
+
+	lockForm(){
+		this.formLocked = true;
+	}
+
+	unLockForm(){
+		this.formLocked = false;
+	}
+
+	createUser(){
+		// Extra validation, case user try remove disable attr manually
+		// Or try call unlockform() manually also
+		if( this.validateDataBeforeSend() ){
+			this.lockForm();
+			this.btnSubmit.classList.add("sending");
+			new Api().createUserApi( this.formValidations ).then( user => {
+				if( user && user.id ){
+					document.body.classList.add("form-sended");
+					this.btnSubmit.classList.remove("sending");
+				} else {
+					throw error;
+				}
+				this.unLockForm();
+			}).catch( error => {
+				this.unLockForm();
+				throw error;
+			});
+		}
+	}
+
+} new App();
