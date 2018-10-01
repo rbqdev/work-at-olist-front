@@ -8,8 +8,8 @@
     "prepush": "npm run lint",
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js",
     "start": "webpack --config webpack.config.js",
-    "build": "./node_modules/.bin/webpack --colors --progress",
-    "watch": "npm run build -- --watch",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "watch": "npm run start -- --watch",
     "server": "./node_modules/.bin/webpack-dev-server --inline --open"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "babel-loader": "^8.0.2",
     "babel-preset-es2015-native-modules": "^6.9.4",
     "chai": "^4.1.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.5.0",
     "file-loader": "^2.0.0",
@@ -41,8 +42,10 @@
     "mini-css-extract-plugin": "^0.4.2",
     "mocha": "^5.2.0",
     "node-sass": "^4.9.3",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.8"
