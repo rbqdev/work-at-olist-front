@@ -1,47 +1,47 @@
 const should = require('chai').should();
-const api = require('../src/assets/js/api.js');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const Api = require('../src/assets/js/api.js');
 
 const form = {
-    name: 'Pink Floyd',
+    name: 'Pink Floyd Test New',
     email: 'pink.floyd@gmail.com',
     password: 'P1nk.Fl0yd',
     password_confirm: 'P1nk.Fl0yd'
 }
 
-describe('CreateAccount', function(){
+describe('CreateAccount', () => {
 
-    describe('Verify Types', function(){
-        it('should be string type', function () {
+    describe('Verify Types', () => {
+        it('should be string type', () => {
             form.name.should.be.a('string');
         })
-        it('should be string type', function () {
+        it('should be string type', () => {
             form.email.should.be.a('string');
         })
-        it('should be string type', function () {
+        it('should be string type', () => {
             form.password.should.be.a('string');
         })
-        it('should be string type', function () {
+        it('should be string type', () => {
             form.password_confirm.should.be.a('string');
         })
     });
 
-    describe('Validate Name', function(){
-        it('should be true if name.length > 6', function () {
+    describe('Validate Name', () => {
+        it('should be true if name.length > 6', () => {
             let nameLength = (form.name.length > 6);
             nameLength.should.equal( true );
         })
     });
 
-    describe('Validate Email', function(){
-        it('should be `true` if email is valid', function () {
+    describe('Validate Email', () => {
+        it('should be `true` if email is valid', () => {
             let isValid = new RegExp("[^@]+@[^@]+\\.[^@]+").test(form.email);
             isValid.should.equal( true );
         })
     });
 
-    describe('Validate Password', function(){
-        it('should be `true` if password is valid', function () {
+    describe('Validate Password', () => {
+        it('should be `true` if password is valid', () => {
 
             const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(form.password);
             const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(form.password);
@@ -53,27 +53,39 @@ describe('CreateAccount', function(){
 
     });
 
-    describe('Validate PasswordConfirmation', function(){
-        it('should be `true` if password confirmation is valid', function () {
+    describe('Validate PasswordConfirmation', () => {
+        it('should be `true` if password confirmation is valid', () => {
             let isValid = ( form.password === form.password_confirm );
             isValid.should.equal( true );
         })
     });
 
-    describe('Create Account Api', function(){
-        it('should be return `object` if user created successfuly', function () {
-            let body = {
-                name: form.name,
-                email: form.email,
-                password: form.password
-            }
-            api.request("POST", api.baseURL + '/user', body, XMLHttpRequest, (response) => {
-                if( response && response.data ){
-                    response.data.should.be.a( 'object' );
-                } else {
-                    console.log( error );
-                }
-            });
+    let user = null;
+
+    function createUser( data ) {
+        let body = {
+            name: data.name,
+            email: data.email,
+            password: data.password
+        }
+        return new Api().createUserApi( body, XMLHttpRequest ).then( user => {
+            if( user && user.id )
+                return user;
+            else
+                throw error;
+
+        }).catch( error => {
+            throw error;
+        });
+    };
+
+    before( async () => {
+        user = await createUser( form );
+    });
+
+    describe('Create User on Api', () => {
+        it('should be return `object` with property `id` if user created successfuly', () => {
+            user.should.have.property('id');
         })
     });
 
