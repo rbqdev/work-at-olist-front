@@ -27,13 +27,16 @@ This project was building with HTML, CSS and Vanilla JS.
 You need of NPM installed in your machine to running this project.
 
 ### Deploying / Publishing
-To build the project, you need only run the following comand
+To build the project in production mode, you need only run the following comand
 
 ```shell
 npm run build
 ```
-If you are in development with the project, you can use `watch`  to build the  always you change something.
-
+Or you can build in development mode
+```shell
+npm run start
+```
+You also can use `watch` to re-build always you change something in development mode
 ```shell
 npm run watch
 ```
