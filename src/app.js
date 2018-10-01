@@ -98,12 +98,12 @@ class App {
 					document.body.classList.add("form-sended");
 					this.btnSubmit.classList.remove("sending");
 				} else {
-					throw error;
+					throw { error: false, text: "Something wrong when try create user!" };
 				}
 				this.unLockForm();
 			}).catch( error => {
 				this.unLockForm();
-				throw error;
+				throw { error: error, text: "Something wrong when try create user!" };
 			});
 		}
 	}
