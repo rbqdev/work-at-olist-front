@@ -31,22 +31,25 @@ class Api {
 
     createUserApi( data, xhr = null ) {
 
-        let body = {
-            name: data.name.value,
-            email: data.email.value,
-            password: data.password.value
-        };
+        if( data && typeof data === 'object' ){
 
-        return this.request("POST", "/user", body, xhr )
-        .then(( response ) => {
-            if (!response && !response.data)
-                throw "Something wrong when trying to register the user!";
+            let body = {
+                name: data.name.value,
+                email: data.email.value,
+                password: data.password.value
+            };
 
-            return response.data;
+            return this.request("POST", "/user", body, xhr )
+            .then(( response ) => {
+                if (!response && !response.data)
+                    throw "Something wrong when trying to register the user!";
 
-        }).catch((error) => {
-            throw error;
-        });
+                return response.data;
+
+            }).catch((error) => {
+                throw error;
+            });
+        }
 
     }
 
