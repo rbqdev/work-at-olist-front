@@ -68,14 +68,12 @@ describe('CreateAccount', () => {
             email: data.email,
             password: data.password
         }
-        return new Api().createUserApi( body, XMLHttpRequest ).then( user => {
-            if( user && user.id )
-                return user;
-            else
-                throw error;
 
-        }).catch( error => {
-            throw error;
+        return new Api().createUserApi( body, XMLHttpRequest ).then( user => {
+            if( !user.id )
+                throw new Error("Something wrong! Try again later");
+
+            return user;
         });
     };
 

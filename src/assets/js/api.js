@@ -40,14 +40,10 @@ class Api {
             };
 
             return this.request("POST", "/user", body, xhr )
-            .then(( response ) => {
-                if (!response && !response.data)
-                    throw "Something wrong when trying to register the user!";
-
-                return response.data;
-
-            }).catch((error) => {
-                throw error;
+            .then( response => {
+                return (response && response.data) ? response.data : null;
+            }).catch( error => {
+                throw new Error("Something wrong! Try again later!");
             });
         }
 
