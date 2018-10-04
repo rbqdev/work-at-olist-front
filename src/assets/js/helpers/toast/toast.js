@@ -7,7 +7,7 @@ export class Toast {
         this.toast = document.createElement("toast-component");
     }
 
-    showToast( message, duration = 1000, position = null ) {
+    showToast( message, position = null, duration = 1000 ) {
 
         this.toast.setAttribute('message', message);
         if( position )

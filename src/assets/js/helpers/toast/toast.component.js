@@ -49,9 +49,6 @@ export default class ToastComponent extends HTMLElement {
                     -webkit-animation: showToast-${key} .3s forwards;
                     animation: showToast-${key} .3s forwards;
                 }
-                .toast.hidden[data-position="${key}"] {
-                    animation: hideToast .4s forwards;
-                }
                 @-webkit-keyframes showToast-${key} {
                     from { opacity: 0; transform: translate(${metrics[key].from.translateX}, ${metrics[key].from.translateY}); }
                     to { opacity: 1; transform: translate(${metrics[key].to.translateX}, ${metrics[key].to.translateY}); }
@@ -76,26 +73,19 @@ export default class ToastComponent extends HTMLElement {
                     max-width: 250px;
                     padding: 12px 10px;
                     background: #333;
+                    color: #fff;
                     text-align: center;
                     border-radius: 3px;
                     transition: 0.2s ease-in-out;
                 }
                 .toast--text {
-                    color: #fff;
                     font-size: 14px;
                 }
-
-                @-webkit-keyframes hideToast {
-                    from { opacity: 1; }
-                    to { opacity: 0; }
+                .toast.hidden[data-position] {
+                    background: transparent;
+                    color: transparent;
                 }
-                @keyframes hideToast {
-                    from { opacity: 1; }
-                    to { opacity: 0; }
-                }
-
                 ${this.styleAnimations}
-
             </style>
             <div id="toast" class="toast" data-position="${this.position}">
                 <div class="toast--text">${ this.message }</div>
