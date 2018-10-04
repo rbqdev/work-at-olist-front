@@ -43,8 +43,9 @@ class Api {
             .then( response => {
                 return (response && response.data) ? response.data : null;
             }).catch( error => {
-                throw new Error("Something wrong! Try again later!");
+                return error;
             });
+
         }
 
     }

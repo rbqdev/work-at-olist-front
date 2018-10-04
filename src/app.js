@@ -91,18 +91,20 @@ class App {
 		// Or try call unlockform() manually also
 		let toast = new Toast();
 		if( this.validateDataBeforeSend() ){
+
 			this.lockForm();
 			this.btnSubmit.classList.add("sending");
 
 			new Api().createUserApi( this.formValidations ).then( user => {
-				if( !user.id ){
+				if( !user.id )
 					toast.showToast("Something wrong! Try again later");
-				} else {
+				else
 					document.body.classList.add("form-sended");
-					this.btnSubmit.classList.remove("sending");
-				}
+
+				this.btnSubmit.classList.remove("sending");
 				this.unLockForm();
 			});
+
 		} else {
 			toast.showToast("Please fill the form correctly");
 		}
