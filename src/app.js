@@ -1,7 +1,6 @@
 import "./assets/css";
-import "./assets/js/components/input.js";
-import "./assets/js/components/password.js";
-import "./assets/js/components/submit.js";
+import "./assets/js/components";
+import { Toast } from "./assets/js/helpers";
 import Api from "./assets/js/api";
 
 class App {
@@ -90,21 +89,22 @@ class App {
 	createUser(){
 		// Extra validation, case user try remove disable attr manually
 		// Or try call unlockform() manually also
+		let toast = new Toast();
 		if( this.validateDataBeforeSend() ){
 			this.lockForm();
 			this.btnSubmit.classList.add("sending");
+
 			new Api().createUserApi( this.formValidations ).then( user => {
-				if( user && user.id ){
+				if( !user.id ){
+					toast.showToast("Something wrong! Try again later");
+				} else {
 					document.body.classList.add("form-sended");
 					this.btnSubmit.classList.remove("sending");
-				} else {
-					throw { error: false, text: "Something wrong when try create user!" };
 				}
 				this.unLockForm();
-			}).catch( error => {
-				this.unLockForm();
-				throw { error: error, text: "Something wrong when try create user!" };
 			});
+		} else {
+			toast.showToast("Please fill the form correctly");
 		}
 	}
 
