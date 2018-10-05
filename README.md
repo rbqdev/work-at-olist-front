@@ -45,10 +45,10 @@ npm run watch
 This project use web components how custom inputs, you can create any instances of component inside a form tag, just call the following HTML commands in your code:
 
 HTML Component | Description | Params / Attributes
------------- | ------------- | -------------
-`<input-component></input-component>` | Custom `<input />` tag with validation and error classes | `label`, `type`, `name`( name also is ID ), `value`, `required` )
-`<password-component></passoword-component>` | Custom tag's password. This component contains two password's inputs and a div to measure the strength of the password  | `label`
-`<submit-component></submit-component>` | Custom `<button></button>` tag with validation and error classes | `label`, `disabled` )
+-------------- | ----------- | -------------------
+`<input-component />` | Custom `<input />` tag with validation and error classes | `label`, `type`, `name`( name also is ID ), `value`, `required` )
+`<password-component />` | Custom tag's password. This component contains two password's inputs and a div to measure the strength of the password  | `label`
+`<submit-component />` | Custom `<button></button>` tag with validation and error classes | `label`, `disabled` )
 
 Calling a component:
 ```
@@ -56,12 +56,18 @@ Calling a component:
 ```
 
 You can change some component's border colors of validation, error and submit background with simple css using a custom variable of a outside css file or style. Like this:
+
 ```
 input-component {
     --color-valid: green;
     --color-error: red;
 }
 ```
+
+Custom Class | Description | Default
+------------ | ----------- | -------
+--color-valid | Input component color border Valid | #00d598
+--color-error | Input component color border Error | #f9967f
 
 ## Demo
 You can see a demo of this project: [Link Here](https://glacial-gorge-64557.herokuapp.com/)
