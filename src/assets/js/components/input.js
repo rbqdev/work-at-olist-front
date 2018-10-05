@@ -39,7 +39,10 @@ export class InputComponent extends HTMLElement {
 
 	connectedCallback() {
 		this.inputComponent.innerHTML = this.render();
+		this.handleEvents();
+	}
 
+	handleEvents(){
 		let input = this.inputComponent.querySelector(".input-wrap input");
 		input.addEventListener("keyup", () => {
 			this.inputValid = this.validateInput(this.type, input.value);

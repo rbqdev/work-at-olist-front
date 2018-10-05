@@ -3,15 +3,6 @@ export class InputPasswordComponent extends HTMLElement {
 	constructor() {
 		super();
 
-		this.label = "";
-
-		this.inputPassword = null;
-		this.inputPasswordConfirm = null;
-		this.passStrength = null;
-		this.passSpecifications = null;
-
-		this.passwordValid = false;
-		this.passwordConfirmValid = false;
 		this.inputComponent = this.attachShadow({ mode: "open" });
 
 	}
@@ -28,33 +19,39 @@ export class InputPasswordComponent extends HTMLElement {
 		}
 	}
 
-
 	connectedCallback() {
-		this.inputComponent.innerHTML = this.render();
-
+        this.inputComponent.innerHTML = this.render();
 		this.passStrength = this.inputComponent.querySelector(".input-wrap #password-strength");
 		this.passSpecifications = Array.from(this.inputComponent.querySelectorAll(".input-wrap #password-specifications .spec"));
+        this.handleEvents();
+    }
 
-		this.inputPassword = this.inputComponent.querySelector(".input-wrap.password input");
-		this.inputPassword.addEventListener("keyup", () => {
-			this.passwordValid = this.validateInputPassword(this.inputPassword.value);
+    handleEvents() {
+        const _handleInputPassword = () => {
+            this.passwordValid = this.validateInputPassword(this.inputPassword.value);
             this.toggleClassesValidAndError(this.inputPassword, this.passwordValid);
-
-            // Remove class validations of Password Confirm
-            // If exists values
+         }
+         const _handleInputPasswordConfirm = () => {
+             this.passwordConfirmValid = this.validateInputPasswordConfirm( this.inputPassword.value, this.inputPasswordConfirm.value);
             if( this.inputPasswordConfirm.value ){
-                this.inputPasswordConfirm.value = "";
-                this.passwordConfirmValid = false;
-                this.removeValidateInputClasses( this.inputPasswordConfirm );
+                this.toggleClassesValidAndError(this.inputPasswordConfirm, this.passwordConfirmValid);
+            } else {
+                this.removeValidateInputClasses(this.inputPasswordConfirm);
             }
-		});
+         }
 
-		this.inputPasswordConfirm = this.inputComponent.querySelector(".input-wrap.password-confirm input");
-		this.inputPasswordConfirm.addEventListener("keyup", () => {
-			this.passwordConfirmValid = this.validateInputPasswordConfirm(this.inputPassword.value, this.inputPasswordConfirm.value);
-			this.toggleClassesValidAndError(this.inputPasswordConfirm, this.passwordConfirmValid);
-		});
-	}
+         /* Handle and Validate Events */
+         this.inputPassword = this.inputComponent.querySelector(".input-wrap.password input");
+         this.inputPasswordConfirm = this.inputComponent.querySelector(".input-wrap.password-confirm input");
+         this.inputPassword.addEventListener("keyup", () => {
+            _handleInputPassword();
+            _handleInputPasswordConfirm();
+         });
+         this.inputPasswordConfirm.addEventListener("keyup", () => {
+            _handleInputPassword();
+            _handleInputPasswordConfirm();
+         });
+    }
 
 	render() {
 		return `
@@ -241,17 +238,10 @@ export class InputPasswordComponent extends HTMLElement {
 		if (countSteps > 0) {
             // Strength Steps
             switch (countSteps) {
-                case 1:
-                    this.passStrength.classList.add("error");
-                    break;
-                case 2:
-                    this.passStrength.classList.add("warning");
-                    break;
-                case 3:
-                    this.passStrength.classList.add("valid");
-                    break;
+                case 1: this.passStrength.classList.add("error"); break;
+                case 2: this.passStrength.classList.add("warning"); break;
+                case 3: this.passStrength.classList.add("valid"); break;
             }
-
             // Strength Requirements
             let spec = this.passSpecifications;
 			(regexSixChars) ? spec[0].classList.add("valid") : spec[0].classList.add("error");
