@@ -97,7 +97,7 @@ class App {
 
 			new Api().createUserApi( this.formValidations ).then( user => {
 				if( !user.id )
-					toast.showToast("Something wrong! Try again later");
+					toast.showToast("Something wrong! Try again later", "danger");
 				else
 					document.body.classList.add("form-sended");
 

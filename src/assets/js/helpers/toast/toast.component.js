@@ -11,15 +11,15 @@ export default class ToastComponent extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ["message", "position"];
+		return ["message", "position", "theme"];
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-        if( name === "message" )
-            this.message = newValue;
-
-        if( name === "position" )
-            this.position = newValue;
+        switch (name) {
+            case "message": this.message = newValue; break;
+            case "position": this.position = newValue; break;
+            case "theme": this.theme = newValue; break;
+        }
 	}
 
 	connectedCallback() {
@@ -81,13 +81,19 @@ export default class ToastComponent extends HTMLElement {
                 .toast--text {
                     font-size: 14px;
                 }
-                .toast.hidden[data-position] {
+                .toast.hidden {
                     background: transparent;
                     color: transparent;
                 }
+
+                .toast[data-theme="success"]{ background: #00d598; }
+                .toast[data-theme="info"]{ background: #041bd4; }
+                .toast[data-theme="danger"]{ background: #f9967f; }
+                .toast[data-theme="warning"]{ background: #f8bd00; }
+
                 ${this.styleAnimations}
             </style>
-            <div id="toast" class="toast" data-position="${this.position}">
+            <div id="toast" class="toast" data-position="${this.position}" data-theme="${this.theme}">
                 <div class="toast--text">${ this.message }</div>
             </div>
         `;

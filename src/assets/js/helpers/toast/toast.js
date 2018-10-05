@@ -7,11 +7,10 @@ export class Toast {
         this.toast = document.createElement("toast-component");
     }
 
-    showToast( message, position = null, duration = 2000 ) {
-
+    showToast( message, theme = "default", position = "bottom-center", duration = 2000 ) {
         this.toast.setAttribute('message', message);
-        if( position )
-            this.toast.setAttribute('position', position);
+        this.toast.setAttribute('theme', theme);
+        this.toast.setAttribute('position', position);
 
         this.body.appendChild( this.toast );
         setTimeout(() => this.hideToast(), duration );
