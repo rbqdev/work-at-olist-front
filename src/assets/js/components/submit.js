@@ -1,3 +1,5 @@
+import Colors from "./style/Colors";
+
 export class SubmitComponent extends HTMLElement {
 
 	constructor() {
@@ -42,7 +44,7 @@ export class SubmitComponent extends HTMLElement {
                     position: relative;
                     height: 52px;
                     border: 0;
-                    background: var(--submit-bg, #00d598);
+                    background: var(--submit-bg, ${Colors.colorGreen});
                     color: var(--submit-color, #fff);
                     font-size: 16px;
                     font-weight: 500;
@@ -50,13 +52,13 @@ export class SubmitComponent extends HTMLElement {
                     cursor: pointer;
                 }
                 .input-wrap .btn-submit:not([disabled]):hover {
-                    background: #08ecab;
+                    background: ${Colors.colorLightGreen};
                 }
                 .input-wrap .btn-submit .loader {
                     position: absolute;
                     width: 100%;
                     height: 100%;
-                    background: #00d598;
+                    background: ${Colors.colorGreen};
                     left: 0;
                     top: 0;
                     display: -webkit-box;

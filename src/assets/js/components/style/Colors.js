@@ -8,6 +8,7 @@ export default {
     colorOlistBlue:     "#041bd4",
     colorDarkBlue:      "#312e4f",
     colorGreen:         "#00d598",
+    colorLightGreen:    "#00d598",
     colorRed:           "#f9967f",
     colorYellow:        "#f8bd00",
 }
