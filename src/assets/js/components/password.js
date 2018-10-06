@@ -1,3 +1,6 @@
+import Colors from "./style/Colors";
+import InputStyle from "./style/InputStyle";
+
 export class InputPasswordComponent extends HTMLElement {
 
 	constructor() {
@@ -54,42 +57,8 @@ export class InputPasswordComponent extends HTMLElement {
 	render() {
 		return `
             <style>
-                .input-wrap {
-                    display: -webkit-box;
-                    display: -ms-flexbox;
-                    display: flex;
-                    -webkit-box-orient: vertical;
-                    -webkit-box-direction: normal;
-                    -ms-flex-direction: column;
-                    flex-direction: column;
-                    margin-top: 20px;
-                }
-                .input-wrap:first-child {
-                    margin: 0;
-                }
-                .input-wrap:focus {
-                    border-color: #041bd4;
-                }
-                .input-wrap label {
-                    margin-bottom: 5px;
-                    color: #767897;
-                }
-                .input-wrap input {
-                    padding: 5px 12px;
-                    min-height: 45px;
-                    font-size: 1em;
-                    border: 1px solid #b6b9d0;
-                    -webkit-box-shadow: inset 0 3px 10px rgba(0,0,0,.05);
-                    box-shadow: inset 0 3px 10px rgba(0,0,0,.05);
-                    outline: 0;
-                    box-sizing: border-box;
-                }
-                .input-wrap.valid input {
-                    border-color: var(--color-valid, #00d598);
-                }
-                .input-wrap.error input {
-                    border-color: var(--color-error, #f9967f);
-                }
+                ${InputStyle}
+
                 ul {
                     padding: 0;
                     margin: 0;
@@ -102,8 +71,8 @@ export class InputPasswordComponent extends HTMLElement {
                     justify-content: space-around;
                 }
                 .password-requirements .strength span {
-                    height: 7px;
-                    background: #eaeaf4;
+                    height: 8px;
+                    background: ${Colors.colorLilac};
                     border-radius: 5px;
                     -webkit-box-flex: 1;
                     -ms-flex-positive: 1;
@@ -115,13 +84,13 @@ export class InputPasswordComponent extends HTMLElement {
                     margin-right: 8px;
                 }
                 .password-requirements .strength.error span:nth-child(1) {
-                    background: #f9967f;
+                    background: ${Colors.colorRed};
                 }
                 .password-requirements .strength.warning span:not(.step-3) {
-                    background: #f8bd00;
+                    background: ${Colors.colorYellow};
                 }
                 .password-requirements .strength.valid span {
-                    background: #00d598;
+                    background: ${Colors.colorGreen};
                 }
                 .password-requirements .specifications {
                     padding-left: 17px;
@@ -129,7 +98,7 @@ export class InputPasswordComponent extends HTMLElement {
                 .password-requirements .specifications li {
                     position: relative;
                     margin-bottom: 5px;
-                    color: #767897;
+                    color: ${Colors.colorDarkLilac};
                 }
                 .password-requirements .specifications li:last-child {
                     margin: 0;
@@ -141,14 +110,14 @@ export class InputPasswordComponent extends HTMLElement {
                     height: 8px;
                     top: 5px;
                     left: -17px;
-                    background: #eaeaf4;
+                    background: ${Colors.colorLilac};
                     border-radius: 100%;
                 }
                 .password-requirements .specifications li.error:before {
-                    background: #f9967f;
+                    background: ${Colors.colorRed};
                 }
                 .password-requirements .specifications li.valid:before {
-                    background: #00d598;
+                    background: ${Colors.colorGreen};
                 }
             </style>
 
