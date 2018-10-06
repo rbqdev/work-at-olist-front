@@ -13,9 +13,7 @@ export class InputPasswordComponent extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		switch (name) {
-			case "label":
-				this.label = newValue;
-				break;
+			case "label": this.label = newValue; break;
 		}
 	}
 
@@ -146,14 +144,8 @@ export class InputPasswordComponent extends HTMLElement {
                     background: #eaeaf4;
                     border-radius: 100%;
                 }
-                .password-requirements .specifications li.error {
-                    color: #f9967f;
-                }
                 .password-requirements .specifications li.error:before {
                     background: #f9967f;
-                }
-                .password-requirements .specifications li.valid {
-                    color: #00d598;
                 }
                 .password-requirements .specifications li.valid:before {
                     background: #00d598;

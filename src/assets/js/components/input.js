@@ -24,16 +24,11 @@ export class InputComponent extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		switch (name) {
-			case "label":
-				this.label = newValue; break;
-			case "type":
-				this.type = newValue; break;
-			case "name":
-				this.name = newValue; break;
-			case "value":
-				this.value = (newValue) ? newValue : ""; break;
-			case "required":
-				this.required = (newValue); break;
+			case "label": this.label = newValue; break;
+			case "type": this.type = newValue; break;
+			case "name": this.name = newValue; break;
+			case "value": this.value = (newValue) ? newValue : ""; break;
+			case "required": this.required = (newValue); break;
 		}
 	}
 

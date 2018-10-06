@@ -16,10 +16,8 @@ export class SubmitComponent extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		switch (name) {
-			case "label":
-				this.label = newValue; break;
-			case "disabled":
-				this.disabled = (newValue); break;
+			case "label": this.label = newValue; break;
+			case "disabled": this.disabled = newValue; break;
 		}
 	}
 
@@ -88,8 +86,8 @@ export class SubmitComponent extends HTMLElement {
                     visibility: visible;
                 }
                 .input-wrap .btn-submit.sending .loader i {
-                    -webkit-animation: spinner .6s ease-in-out infinite;
-                    animation: spinner .6s ease-in-out infinite;
+                    -webkit-animation: spinner 1.2s ease-in-out infinite;
+                    animation: spinner 1.2s ease-in-out infinite;
                 }
                 .input-wrap .btn-submit.sending .loader i:nth-child(1) {
                     -webkit-animation-delay: 200ms;
@@ -108,26 +106,18 @@ export class SubmitComponent extends HTMLElement {
                     cursor: initial;
                 }
                 @-webkit-keyframes spinner {
-                    0% {
-                      -webkit-transform: scale(1);
-                      transform: scale(1); }
-                    50% {
-                      -webkit-transform: scale(1.4);
-                      transform: scale(1.4); }
-                    100% {
-                      -webkit-transform: scale(1);
-                      transform: scale(1); } 
+                    0% { -webkit-transform: scale(1); transform: scale(1); }
+                    25% { -webkit-transform: scale(1.4); transform: scale(1.4); }
+                    50% { -webkit-transform: scale(1); transform: scale(1); }
+                    75% { -webkit-transform: scale(.5); transform: scale(.5); }
+                    100% { -webkit-transform: scale(1); transform: scale(1); }
                 }
                 @keyframes spinner {
-                    0% {
-                      -webkit-transform: scale(1);
-                      transform: scale(1); }
-                    50% {
-                      -webkit-transform: scale(1.4);
-                      transform: scale(1.4); }
-                    100% {
-                      -webkit-transform: scale(1);
-                      transform: scale(1); } 
+                    0% { -webkit-transform: scale(1); transform: scale(1); }
+                    25% { -webkit-transform: scale(1.4); transform: scale(1.4); }
+                    50% { -webkit-transform: scale(1); transform: scale(1); }
+                    75% { -webkit-transform: scale(.5); transform: scale(.5); }
+                    100% { -webkit-transform: scale(1); transform: scale(1); }
                 }
             </style>
 
