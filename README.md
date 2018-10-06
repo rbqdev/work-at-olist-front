@@ -21,7 +21,7 @@ Here what should say what actually happens when you execute `npm run server`. An
 ## Developing
 
 ### Built With
-This project was building with HTML, CSS and Vanilla JS.
+This project was building with HTML, CSS, Vanilla JS(ES6) and Web Components.
 
 ### Prerequisites
 You need of NPM installed in your machine to running this project.
@@ -66,8 +66,9 @@ input-component {
 
 Custom Class | Description | Default
 ------------ | ----------- | -------
---color-valid | Input component color border Valid | #00d598
---color-error | Input component color border Error | #f9967f
+--color-valid | Color Border `Valid` of Input Component | #00d598
+--color-error | Color Border `Error` of Input Component | #f9967f
+--submit-bg | Background color of Submit component  | #00d598
 
 ## Demo
 You can see a demo of this project: [Link Here](https://glacial-gorge-64557.herokuapp.com/)
