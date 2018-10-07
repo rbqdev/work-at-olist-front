@@ -78,21 +78,18 @@ class App {
 		return true;
 	}
 
-	lockForm(){
-		this.formLocked = true;
-	}
-
-	unLockForm(){
-		this.formLocked = false;
+	toggleLockForm( lock ){
+		if( typeof loock === "boolean" )
+			this.formLocked = lock;
 	}
 
 	createUser(){
 		// Extra validation, case user try remove disable attr manually
-		// Or try call unlockform() manually also
+		// Or try call unlock form manually also
 		let toast = new Toast();
 		if( this.validateDataBeforeSend() ){
 
-			this.lockForm();
+			this.toggleLockForm( true );
 			this.btnSubmit.classList.add("sending");
 
 			new Api().createUserApi( this.formValidations ).then( user => {
@@ -102,7 +99,7 @@ class App {
 					document.body.classList.add("form-sended");
 
 				this.btnSubmit.classList.remove("sending");
-				this.unLockForm();
+				this.toggleLockForm( false );
 			});
 
 		} else {
