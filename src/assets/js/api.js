@@ -1,7 +1,8 @@
 class Api {
 
     constructor(){
-        this.baseURL = 'http://5b9701e429cbd70014a8fd28.mockapi.io/api';
+        // this.baseURL = 'http://5b9701e429cbd70014a8fd28.mockapi.io/api';
+        this.baseURL = 'https://reqres.in/api';
     }
 
     request(method, endpoint = null, body = null, xhrInject = null) {
@@ -39,7 +40,7 @@ class Api {
                 password: data.password.value
             };
 
-            return this.request("POST", "/user", body, xhr )
+            return this.request("POST", "/users", body, xhr )
             .then( response => {
                 return (response && response.data) ? response.data : null;
             }).catch( error => {
