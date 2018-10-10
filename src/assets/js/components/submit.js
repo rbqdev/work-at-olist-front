@@ -2,33 +2,33 @@ import Colors from "./style/Colors";
 
 export class SubmitComponent extends HTMLElement {
 
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		this.label = "Send";
-		this.disabled = true;
+        this.label = "Send";
+        this.disabled = true;
 
-		this.inputComponent = this.attachShadow({ mode: "open" });
+        this.inputComponent = this.attachShadow({ mode: "open" });
 
-	}
+    }
 
-	static get observedAttributes() {
-		return ["label", "disabled"];
-	}
+    static get observedAttributes() {
+        return ["label", "disabled"];
+    }
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		switch (name) {
-			case "label": this.label = newValue; break;
-			case "disabled": this.disabled = newValue; break;
-		}
-	}
+    attributeChangedCallback(name, oldValue, newValue) {
+        switch (name) {
+            case "label": this.label = newValue; break;
+            case "disabled": this.disabled = newValue; break;
+        }
+    }
 
-	connectedCallback() {
-		this.inputComponent.innerHTML = this.render();
-	}
+    connectedCallback() {
+        this.inputComponent.innerHTML = this.render();
+    }
 
-	render() {
-		return `
+    render() {
+        return `
             <style>
                 .input-wrap {
                     display: -webkit-box;
@@ -134,7 +134,7 @@ export class SubmitComponent extends HTMLElement {
                 </button>
             </div>
         `;
-	}
+    }
 
 }
 

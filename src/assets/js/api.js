@@ -1,6 +1,6 @@
 class Api {
 
-    constructor(){
+    constructor() {
         // this.baseURL = 'http://5b9701e429cbd70014a8fd28.mockapi.io/api';
         this.baseURL = 'https://reqres.in/api';
     }
@@ -11,12 +11,12 @@ class Api {
             xhr.open(method, this.baseURL + endpoint, true);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             xhr.onload = function () {
-                if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 201)){
+                if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 201)) {
                     resolve({
                         status: 200,
                         data: (typeof xhr.responseText === 'string') ? JSON.parse(xhr.responseText) : xhr.responseText
                     });
-                } else{
+                } else {
                     reject({ status: this.status, statusText: xhr.statusText });
                 }
             }
@@ -30,9 +30,9 @@ class Api {
         });
     }
 
-    createUserApi( data, xhr = null ) {
+    createUserApi(data, xhr = null) {
 
-        if( data && typeof data === 'object' ){
+        if (data && typeof data === 'object') {
 
             let body = {
                 name: data.name.value,
@@ -40,12 +40,12 @@ class Api {
                 password: data.password.value
             };
 
-            return this.request("POST", "/users", body, xhr )
-            .then( response => {
-                return (response && response.data) ? response.data : null;
-            }).catch( error => {
-                return error;
-            });
+            return this.request("POST", "/users", body, xhr)
+                .then(response => {
+                    return (response && response.data) ? response.data : null;
+                }).catch(error => {
+                    return error;
+                });
 
         }
 
