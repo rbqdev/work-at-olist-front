@@ -1,6 +1,6 @@
 const should = require('chai').should();
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const Api = require('../src/assets/js/api.js');
+const Api = require('../src/assets/js/providers/api.js');
 
 const form = {
     name: 'Pink Floyd Test New',

@@ -1,7 +1,7 @@
 import "./assets/css";
 import "./assets/js/components";
 import { Toast } from "./assets/js/helpers";
-import Api from "./assets/js/api";
+import Api from "./assets/js/providers/api";
 
 class App {
 
