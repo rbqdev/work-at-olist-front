@@ -32,29 +32,33 @@ class App {
 	}
 
 	handleInputEvents(){
+
 		this.inputName.addEventListener("keyup", (e) => {
 			this.formValidations.name.value = e.target.value;
 			this.formValidations.name.isValid = this.componentFullname.inputValidated();
 			this.validateSubmitButton();
 		});
+
 		this.inputEmail.addEventListener("keyup", (e) => {
 			this.formValidations.email.value = e.target.value;
 			this.formValidations.email.isValid = this.componentEmail.inputValidated();
 			this.validateSubmitButton();
 		});
+
 		// Return object on passwordValidated to validate both inputs passwords
-		this.inputPassword.addEventListener("keyup", (e) => {
-			this.formValidations.password.value = e.target.value;
+		const _handleValidatePasswords = (input) => {
+            this.formValidations.password.value = input.target.value;
 			this.formValidations.password.isValid = this.componentPassword.passwordValidated().passValid;
 			this.formValidations.password_confirm.isValid = this.componentPassword.passwordValidated().passConfirmValid;
 			this.validateSubmitButton();
+		}
+		this.inputPassword.addEventListener("keyup", (e) => {
+			_handleValidatePasswords(e);
 		});
 		this.inputPasswordConfirm.addEventListener("keyup", (e) => {
-			this.formValidations.password_confirm.value = e.target.value;
-			this.formValidations.password.isValid = this.componentPassword.passwordValidated().passValid;
-			this.formValidations.password_confirm.isValid = this.componentPassword.passwordValidated().passConfirmValid;
-			this.validateSubmitButton();
+			_handleValidatePasswords(e);
 		});
+
 		this.btnSubmit.addEventListener("click", (e) => {
 			e.preventDefault();
 

@@ -3,59 +3,59 @@ import InputStyle from "./style/InputStyle";
 
 export class InputPasswordComponent extends HTMLElement {
 
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		this.inputComponent = this.attachShadow({ mode: "open" });
+        this.inputComponent = this.attachShadow({ mode: "open" });
 
-	}
+    }
 
-	static get observedAttributes() {
-		return ["label"];
-	}
+    static get observedAttributes() {
+        return ["label"];
+    }
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		switch (name) {
-			case "label": this.label = newValue; break;
-		}
-	}
+    attributeChangedCallback(name, oldValue, newValue) {
+        switch (name) {
+            case "label": this.label = newValue; break;
+        }
+    }
 
-	connectedCallback() {
+    connectedCallback() {
         this.inputComponent.innerHTML = this.render();
-		this.passStrength = this.inputComponent.querySelector(".input-wrap #password-strength");
-		this.passSpecifications = Array.from(this.inputComponent.querySelectorAll(".input-wrap #password-specifications .spec"));
+        this.passStrength = this.inputComponent.querySelector(".input-wrap #password-strength");
+        this.passSpecifications = Array.from(this.inputComponent.querySelectorAll(".input-wrap #password-specifications .spec"));
         this.handleEvents();
     }
 
     handleEvents() {
+
         const _handleInputPassword = () => {
             this.passwordValid = this.validateInputPassword(this.inputPassword.value);
             this.toggleClassesValidAndError(this.inputPassword, this.passwordValid);
-         }
-         const _handleInputPasswordConfirm = () => {
-             this.passwordConfirmValid = this.validateInputPasswordConfirm( this.inputPassword.value, this.inputPasswordConfirm.value);
-            if( this.inputPasswordConfirm.value ){
-                this.toggleClassesValidAndError(this.inputPasswordConfirm, this.passwordConfirmValid);
-            } else {
-                this.removeValidateInputClasses(this.inputPasswordConfirm);
-            }
-         }
+        }
+        const _handleInputPasswordConfirm = () => {
+            this.passwordConfirmValid = this.validateInputPasswordConfirm(this.inputPassword.value, this.inputPasswordConfirm.value);
 
-         /* Handle and Validate Events */
-         this.inputPassword = this.inputComponent.querySelector(".input-wrap.password input");
-         this.inputPasswordConfirm = this.inputComponent.querySelector(".input-wrap.password-confirm input");
-         this.inputPassword.addEventListener("keyup", () => {
+            if (this.inputPasswordConfirm.value)
+                this.toggleClassesValidAndError(this.inputPasswordConfirm, this.passwordConfirmValid);
+            else
+                this.removeValidateInputClasses(this.inputPasswordConfirm);
+        }
+
+        /* Handle and Validate Events */
+        this.inputPassword = this.inputComponent.querySelector(".input-wrap.password input");
+        this.inputPasswordConfirm = this.inputComponent.querySelector(".input-wrap.password-confirm input");
+        this.inputPassword.addEventListener("keyup", () => {
             _handleInputPassword();
             _handleInputPasswordConfirm();
-         });
-         this.inputPasswordConfirm.addEventListener("keyup", () => {
-            _handleInputPassword();
+        });
+        this.inputPasswordConfirm.addEventListener("keyup", () => {
             _handleInputPasswordConfirm();
-         });
+        });
     }
 
-	render() {
-		return `
+    render() {
+        return `
             <style>
                 ${InputStyle}
 
@@ -155,17 +155,17 @@ export class InputPasswordComponent extends HTMLElement {
                 />
             </div>
         `;
-	}
+    }
 
-	passwordValidated() {
-		return {
+    passwordValidated() {
+        return {
             passValid: this.passwordValid,
             passConfirmValid: this.passwordConfirmValid
         };
-	}
+    }
 
-	toggleClassesValidAndError(element, condition) {
-        if( element.parentNode ){
+    toggleClassesValidAndError(element, condition) {
+        if (element.parentNode) {
             if (condition) {
                 element.parentNode.classList.add("valid");
                 element.parentNode.classList.remove("error");
@@ -176,27 +176,27 @@ export class InputPasswordComponent extends HTMLElement {
         }
     }
 
-    removeValidateInputClasses( element ){
-        if( element.parentNode ){
+    removeValidateInputClasses(element) {
+        if (element.parentNode) {
             element.parentNode.classList.remove("valid");
             element.parentNode.classList.remove("error");
         }
     }
 
-	validateInputPassword(value) {
-		const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
-		const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(value);
+    validateInputPassword(value) {
+        const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
+        const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(value);
         const regexNumber = new RegExp(/^(?=.*\d)/).test(value);
 
-		let countSteps = 0;
-		(regexCapital) ? countSteps++ : null;
-		(regexNumber) ? countSteps++ : null;
+        let countSteps = 0;
+        (regexCapital) ? countSteps++ : null;
+        (regexNumber) ? countSteps++ : null;
         (regexSixChars) ? countSteps++ : null;
 
         this.removeAllClassesPasswordValidation("steps");
         this.removeAllClassesPasswordValidation(null, "requirements");
 
-		if (countSteps > 0) {
+        if (countSteps > 0) {
             // Strength Steps
             switch (countSteps) {
                 case 1: this.passStrength.classList.add("error"); break;
@@ -205,25 +205,25 @@ export class InputPasswordComponent extends HTMLElement {
             }
             // Strength Requirements
             let spec = this.passSpecifications;
-			(regexSixChars) ? spec[0].classList.add("valid") : spec[0].classList.add("error");
-			(regexCapital) ? spec[1].classList.add("valid") : spec[1].classList.add("error");
-			(regexNumber) ? spec[2].classList.add("valid") : spec[2].classList.add("error");
+            (regexSixChars) ? spec[0].classList.add("valid") : spec[0].classList.add("error");
+            (regexCapital) ? spec[1].classList.add("valid") : spec[1].classList.add("error");
+            (regexNumber) ? spec[2].classList.add("valid") : spec[2].classList.add("error");
         }
 
-		return (regexSixChars && regexCapital && regexNumber);
-	}
-	validateInputPasswordConfirm(password, passwordConfirm) {
-		return (password === passwordConfirm);
-	}
+        return (regexSixChars && regexCapital && regexNumber);
+    }
+    validateInputPasswordConfirm(password, passwordConfirm) {
+        return (password === passwordConfirm);
+    }
 
-	removeAllClassesPasswordValidation(steps = null, requirements = null) {
-		if (steps)
-			this.passStrength.classList.remove("warning", "error", "valid");
+    removeAllClassesPasswordValidation(steps = null, requirements = null) {
+        if (steps)
+            this.passStrength.classList.remove("warning", "error", "valid");
 
-		if (requirements)
-			for (const key in this.passSpecifications)
-				this.passSpecifications[key].classList.remove("error", "valid");
-	}
+        if (requirements)
+            for (const key in this.passSpecifications)
+                this.passSpecifications[key].classList.remove("error", "valid");
+    }
 
 }
 
