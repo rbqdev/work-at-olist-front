@@ -1,7 +1,7 @@
 class Api {
 
     constructor(){
-        this.baseURL = 'https://5b9701e429cbd70014a8fd28.mockapi.io/api';
+        this.baseURL = 'http://5b9701e429cbd70014a8fd28.mockapi.io/api';
     }
 
     request(method, endpoint = null, body = null, xhrInject = null) {
