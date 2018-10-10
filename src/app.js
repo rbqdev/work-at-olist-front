@@ -47,11 +47,11 @@ class App {
 
 		// Return object on passwordValidated to validate both inputs passwords
 		const _handleValidatePasswords = (input) => {
-            this.formValidations.password.value = input.target.value;
+			this.formValidations.password.value = input.target.value;
 			this.formValidations.password.isValid = this.componentPassword.passwordValidated().passValid;
 			this.formValidations.password_confirm.isValid = this.componentPassword.passwordValidated().passConfirmValid;
 			this.validateSubmitButton();
-		}
+		};
 		this.inputPassword.addEventListener("keyup", (e) => {
 			_handleValidatePasswords(e);
 		});
