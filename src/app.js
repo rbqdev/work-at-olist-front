@@ -115,12 +115,13 @@ class App {
                     toast.showToast("Something wrong! Try again later", "danger");
                 else {
                     this.appContent.insertAdjacentHTML("beforeend", this.templateFormSended());
-                    document.body.classList.add("form-sended");
-                    document.querySelector(".create-account").remove();
+                    setTimeout(() => {
+                        document.body.classList.add("form-sended");
+                        document.querySelector(".create-account").remove();
+                        this.btnSubmit.classList.remove("sending");
+                        this.toggleLockForm(false);
+                    }, 300);
                 }
-
-                this.btnSubmit.classList.remove("sending");
-                this.toggleLockForm(false);
             });
 
         } else {
