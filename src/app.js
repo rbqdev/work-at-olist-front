@@ -7,6 +7,8 @@ class App {
 
     constructor() {
 
+        this.appContent = document.getElementById("ca--content");
+
         this.componentFullname = document.getElementById("component-fullname");
         this.componentPassword = document.getElementById("component-password");
         this.componentEmail = document.getElementById("component-email");
@@ -87,6 +89,18 @@ class App {
             this.formLocked = lock;
     }
 
+    templateFormSended(){
+        return `
+            <div class="process-done">
+                <div>
+                    <img src="./assets/img/checkmark.svg" alt="Checkmark" />
+                    <h3>Tudo Certo</h3>
+                    <p>Verifique sua caixa de entrada para confirmar seu e-mail.</p>
+                </div>
+            </div>
+        `;
+    }
+
     createUser() {
         // Extra validation, case user try remove disable attr manually
         // Or try call unlock form manually also
@@ -99,8 +113,11 @@ class App {
             new Api().createUserApi(this.formValidations).then(user => {
                 if (!user.id)
                     toast.showToast("Something wrong! Try again later", "danger");
-                else
+                else {
+                    this.appContent.insertAdjacentHTML("beforeend", this.templateFormSended());
                     document.body.classList.add("form-sended");
+                    document.querySelector(".create-account").remove();
+                }
 
                 this.btnSubmit.classList.remove("sending");
                 this.toggleLockForm(false);
