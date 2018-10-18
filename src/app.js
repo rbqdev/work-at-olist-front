@@ -118,7 +118,6 @@ class App {
                     setTimeout(() => {
                         document.body.classList.add("form-sended");
                         document.querySelector(".create-account").remove();
-                        this.btnSubmit.classList.remove("sending");
                         this.toggleLockForm(false);
                     }, 300);
                 }
