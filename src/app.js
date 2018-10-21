@@ -1,95 +1,121 @@
-import "./assets/css";
-import "./assets/js/components";
-import { Toast } from "./assets/js/helpers";
-import Api from "./assets/js/providers/api";
+import './assets/css';
+import './components';
+import { Observable, Toast } from './helpers';
+import Api from './providers/api';
 
 class App {
 
     constructor() {
+        this.getClassAttributes();
+        this.handleObservableEvents();
+        this.handleEvents();
+    }
 
-        this.appContent = document.getElementById("ca--content");
+    getClassAttributes(){
+        this.appContent = document.getElementById('ca--content');
 
-        this.componentFullname = document.getElementById("component-fullname");
-        this.componentPassword = document.getElementById("component-password");
-        this.componentEmail = document.getElementById("component-email");
-        this.componentSubmit = document.getElementById("component-submit");
+        this.components = {
+            name: document.getElementById('component-fullname'),
+            email: document.getElementById('component-email'),
+            password: document.getElementById('component-password'),
+            submit: document.getElementById('component-submit')
+        };
 
-        this.inputName = this.componentFullname.shadowRoot.getElementById("input-c-fullname");
-        this.inputEmail = this.componentEmail.shadowRoot.getElementById("input-c-email");
-        this.inputPassword = this.componentPassword.shadowRoot.getElementById("input-c-password");
-        this.inputPasswordConfirm = this.componentPassword.shadowRoot.getElementById("input-c-password-confirm");
-        this.btnSubmit = this.componentSubmit.shadowRoot.getElementById("btn-submit");
-
-        this.formValidations = {
-            name: { value: null, isValid: false },
-            email: { value: null, isValid: false },
-            password: { value: null, isValid: false },
-            password_confirm: { value: null, isValid: false }
+        this.inputs = {
+            name: this.components.name.shadowRoot.getElementById('input-c-fullname'),
+            email: this.components.email.shadowRoot.getElementById('input-c-email'),
+            password: this.components.password.shadowRoot.getElementById('input-c-password'),
+            passwordConfirm: this.components.password.shadowRoot.getElementById('input-c-password-confirm'),
+            submit: this.components.submit.shadowRoot.getElementById('btn-submit')
         };
 
         this.formLocked = false;
-
-        this.handleInputEvents();
-
     }
 
-    handleInputEvents() {
+    handleObservableEvents(){
+        this.formValidations = new Observable().createObservable({
+            name: false,
+            email: false,
+            password: false,
+            passwordConfirm: false
+        }, {
+            onGet: () => {},
+            onSet: () => {
+                let condition = true;
+                for (const key in this.formValidations)
+                    if(!this.formValidations[key]){
+                        condition = false;
+                        break;
+                    }
 
-        this.inputName.addEventListener("keyup", (e) => {
-            this.formValidations.name.value = e.target.value;
-            this.formValidations.name.isValid = this.componentFullname.inputValidated();
-            this.validateSubmitButton();
+                this.validateSubmitButton( condition );
+            }
         });
+    }
 
-        this.inputEmail.addEventListener("keyup", (e) => {
-            this.formValidations.email.value = e.target.value;
-            this.formValidations.email.isValid = this.componentEmail.inputValidated();
-            this.validateSubmitButton();
+    handleEvents() {
+        this.handleNameAndEmailEvents();
+        this.handlePasswordsEvents();
+        this.handleSubmitEvents();
+    }
+
+    handleNameAndEmailEvents(){
+        ['name', 'email'].forEach( key => {
+            this.inputs[key].addEventListener('keyup', () => {
+                this.formValidations[key] = this.components[key].inputValidated();
+            });
         });
+    }
 
-        // Return object on passwordValidated to validate both inputs passwords
-        const _handleValidatePasswords = (input) => {
-            this.formValidations.password.value = input.target.value;
-            this.formValidations.password.isValid = this.componentPassword.passwordValidated().passValid;
-            this.formValidations.password_confirm.isValid = this.componentPassword.passwordValidated().passConfirmValid;
-            this.validateSubmitButton();
+    handlePasswordsEvents(){
+        /*
+         * Return object on passwordValidated to validate both inputs passwords
+        */
+        const _handleValidatePasswords = () => {
+            this.formValidations.password = this.components.password.passwordValidated().passValid;
+            this.formValidations.passwordConfirm = this.components.password.passwordValidated().passConfirmValid;
         };
-        this.inputPassword.addEventListener("keyup", (e) => {
-            _handleValidatePasswords(e);
-        });
-        this.inputPasswordConfirm.addEventListener("keyup", (e) => {
-            _handleValidatePasswords(e);
-        });
-
-        this.btnSubmit.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            if (!this.formLocked)
-                this.createUser();
+        ['password', 'passwordConfirm'].forEach( key => {
+            this.inputs[key].addEventListener('keyup', () => {
+                _handleValidatePasswords();
+            });
         });
     }
 
-    validateSubmitButton() {
-        if (!this.validateDataBeforeSend())
-            this.btnSubmit.setAttribute("disabled", "disabled");
+    handleSubmitEvents(){
+        this.inputs.submit.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.createUser();
+        });
+    }
+
+    validateSubmitButton(condition) {
+        if (!condition)
+            this.inputs.submit.setAttribute('disabled', 'disabled');
         else
-            this.btnSubmit.removeAttribute("disabled");
+            this.inputs.submit.removeAttribute('disabled');
     }
 
     validateDataBeforeSend() {
+        /**
+        * If the user get disable the button in any way with invalid data
+        * Will stop here and add the error class in the first empty entry
+        */
         for (const key in this.formValidations)
-            if (!this.formValidations[key].isValid)
+            if (!this.formValidations[key]){
+                this.inputs[key].parentNode.classList.add('error');
                 return;
+            }
 
         return true;
     }
 
     toggleLockForm(lock) {
-        if (typeof loock === "boolean")
+        if (typeof lock === 'boolean')
             this.formLocked = lock;
     }
 
-    templateFormSended(){
+    templateFormSuccess(){
         return `
             <div class="process-done">
                 <div>
@@ -102,30 +128,42 @@ class App {
     }
 
     createUser() {
-        // Extra validation, case user try remove disable attr manually
-        // Or try call unlock form manually also
+        /**
+         * Lock Form when sending data to api
+         * Extra validation, case user try remove disable attr manually
+         * Or try call unlock form manually also
+         */
+
         let toast = new Toast();
-        if (this.validateDataBeforeSend()) {
 
-            this.toggleLockForm(true);
-            this.btnSubmit.classList.add("sending");
+        if( !this.formLocked ){
 
-            new Api().createUserApi(this.formValidations).then(user => {
-                if (!user.id)
-                    toast.showToast("Something wrong! Try again later", "danger");
-                else {
-                    this.appContent.insertAdjacentHTML("beforeend", this.templateFormSended());
-                    setTimeout(() => {
-                        document.body.classList.add("form-sended");
-                        document.querySelector(".create-account").remove();
-                        this.toggleLockForm(false);
-                    }, 300);
-                }
-            });
+            if ( this.validateDataBeforeSend() ) {
 
-        } else {
-            toast.showToast("Please fill the form correctly");
+                this.toggleLockForm(true);
+
+                this.inputs.submit.classList.add('sending');
+
+                new Api().createUserApi(this.formValidations).then(user => {
+                    if (!user.id)
+                        toast.showToast('Something wrong! Try again later', 'danger');
+                    else {
+                        this.appContent.insertAdjacentHTML('beforeend', this.templateFormSuccess());
+                        setTimeout(() => {
+                            document.body.classList.add('form-sended');
+                            document.querySelector('.create-account').remove();
+                            this.toggleLockForm(false);
+                        }, 700);
+                    }
+                });
+
+            }
+            else
+                toast.showToast('Please fill the form correctly');
         }
+        else
+            toast.showToast('Sending user data, await a moment...');
+
     }
 
 } new App();

@@ -1,4 +1,5 @@
 import InputStyle from "./style/InputStyle";
+import RegexRules from "../providers/regex";
 
 export class InputComponent extends HTMLElement {
 
@@ -10,6 +11,8 @@ export class InputComponent extends HTMLElement {
         this.name = "text";
         this.value = "";
         this.required = true;
+
+        this.rules = new RegexRules();
 
         this.inputValid = false;
         this.inputComponent = this.attachShadow({ mode: "open" });
@@ -54,7 +57,7 @@ export class InputComponent extends HTMLElement {
             </style>
 
             <div class="input-wrap ${this.type}">
-                <label>${this.label}</label>
+                <label for="input-c-${this.name}">${this.label}</label>
                 <input
                     type="${this.type}"
                     id="input-c-${this.name}"
@@ -80,10 +83,10 @@ export class InputComponent extends HTMLElement {
     validateInput(type, value) {
         switch (type) {
             case "text":
-                return (value && value.length > 6);
+                return this.rules.getRegexLength( value, 6 );
                 break;
             case "email":
-                return (value && new RegExp("[^@]+@[^@]+\\.[^@]+").test(value));
+                return this.rules.getRegexEmail( value );
                 break;
         }
     }
