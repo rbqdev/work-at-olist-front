@@ -1,9 +1,12 @@
 const should = require('chai').should();
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const Api = require('../src/assets/js/providers/api.js');
+const Api = require('../src/providers/api.js');
+const RegexRules = require('../src/providers/regex.js');
+
+const rules = new RegexRules();
 
 const form = {
-    name: 'Pink Floyd Test New',
+    name: 'Pink Floyd',
     email: 'pink.floyd@gmail.com',
     password: 'P1nk.Fl0yd',
     password_confirm: 'P1nk.Fl0yd'
@@ -28,26 +31,22 @@ describe('CreateAccount', () => {
 
     describe('Validate Name', () => {
         it('should be true if name.length > 6', () => {
-            let nameLength = (form.name.length > 6);
-            nameLength.should.equal( true );
+            let isValid = rules.getRegexLength( form.name, 6 );
+            isValid.should.equal( true );
         })
     });
 
     describe('Validate Email', () => {
         it('should be `true` if email is valid', () => {
-            let isValid = new RegExp("[^@]+@[^@]+\\.[^@]+").test(form.email);
+            let isValid = rules.getRegexEmail( form.email );
             isValid.should.equal( true );
         })
     });
 
     describe('Validate Password', () => {
         it('should be `true` if password is valid', () => {
-
-            const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(form.password);
-            const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(form.password);
-            const regexNumber = new RegExp(/^(?=.*\d)/).test(form.password);
-
-            let isValid = ( regexSixChars && regexCapital && regexNumber );
+            const validations = rules.getRegexPassword( form.password );
+            let isValid = ( validations.regexSixChars && validations.regexCapital && validations.regexNumber );
             isValid.should.equal( true );
         })
 

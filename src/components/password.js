@@ -1,13 +1,14 @@
 import Colors from "./style/Colors";
 import InputStyle from "./style/InputStyle";
+import RegexRules from "../providers/regex";
 
 export class InputPasswordComponent extends HTMLElement {
 
     constructor() {
         super();
 
+        this.rules = new RegexRules();
         this.inputComponent = this.attachShadow({ mode: "open" });
-
     }
 
     static get observedAttributes() {
@@ -122,7 +123,7 @@ export class InputPasswordComponent extends HTMLElement {
             </style>
 
             <div class="input-wrap password">
-                <label>${this.label}</label>
+                <label for="input-c-password">${this.label}</label>
                 <input
                     type="password"
                     id="input-c-password"
@@ -146,7 +147,7 @@ export class InputPasswordComponent extends HTMLElement {
             </div>
 
             <div class="input-wrap password-confirm">
-                <label>Confirmar ${this.label}</label>
+                <label for="input-c-password-confirm">Confirmar ${this.label}</label>
                 <input
                     type="password"
                     id="input-c-password-confirm"
@@ -177,40 +178,36 @@ export class InputPasswordComponent extends HTMLElement {
     }
 
     removeValidateInputClasses(element) {
-        if (element.parentNode) {
-            element.parentNode.classList.remove("valid");
-            element.parentNode.classList.remove("error");
-        }
+        if (element.parentNode)
+            element.parentNode.classList.remove("valid", "error");
     }
 
     validateInputPassword(value) {
-        const regexSixChars = new RegExp(/^[A-Za-z-0-9\d$@$!%*#?&.]{6,}$/).test(value);
-        const regexCapital = new RegExp(/^(?=.*[A-Z])/).test(value);
-        const regexNumber = new RegExp(/^(?=.*\d)/).test(value);
-
-        let countSteps = 0;
-        (regexCapital) ? countSteps++ : null;
-        (regexNumber) ? countSteps++ : null;
-        (regexSixChars) ? countSteps++ : null;
+        let validations = this.rules.getRegexPassword( value );
+        let stepsValidated = 0;
+        for (const key in validations)
+            if (validations[key])
+                stepsValidated++;
 
         this.removeAllClassesPasswordValidation("steps");
         this.removeAllClassesPasswordValidation(null, "requirements");
 
-        if (countSteps > 0) {
+        if (stepsValidated > 0) {
             // Strength Steps
-            switch (countSteps) {
+            switch (stepsValidated) {
                 case 1: this.passStrength.classList.add("error"); break;
                 case 2: this.passStrength.classList.add("warning"); break;
                 case 3: this.passStrength.classList.add("valid"); break;
             }
             // Strength Requirements
             let spec = this.passSpecifications;
-            (regexSixChars) ? spec[0].classList.add("valid") : spec[0].classList.add("error");
-            (regexCapital) ? spec[1].classList.add("valid") : spec[1].classList.add("error");
-            (regexNumber) ? spec[2].classList.add("valid") : spec[2].classList.add("error");
+            (validations.regexSixChars) ? spec[0].classList.add("valid") : spec[0].classList.add("error");
+            (validations.regexCapital) ? spec[1].classList.add("valid") : spec[1].classList.add("error");
+            (validations.regexNumber) ? spec[2].classList.add("valid") : spec[2].classList.add("error");
+
         }
 
-        return (regexSixChars && regexCapital && regexNumber);
+        return (stepsValidated === 3);
     }
     validateInputPasswordConfirm(password, passwordConfirm) {
         return (password === passwordConfirm);
