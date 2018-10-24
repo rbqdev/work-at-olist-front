@@ -23,32 +23,27 @@ class Api {
             xhr.onerror = function () {
                 reject({ status: this.status, statusText: xhr.statusText });
             };
-            if (method === 'POST' && body)
+            if (method === 'POST' && body) {
                 xhr.send(JSON.stringify(body));
+            }
             else
                 xhr.send(null);
         });
     }
 
     createUserApi(data, xhr = null) {
+        /**
+         * Function created here to be exported to tests
+         */
+        if (!data && typeof data !== 'object')
+            return;
 
-        if (data && typeof data === 'object') {
-
-            let body = {
-                name: data.name.value,
-                email: data.email.value,
-                password: data.password.value
-            };
-
-            return this.request("POST", "/users", body, xhr)
-                .then(response => {
-                    return (response && response.data) ? response.data : null;
-                }).catch(error => {
-                    return error;
-                });
-
-        }
-
+        return this.request("POST", "/users", data, xhr)
+            .then(response => {
+                return (response && response.data) ? response.data : null;
+            }).catch(error => {
+                return error;
+            });
     }
 
 }

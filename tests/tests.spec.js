@@ -62,13 +62,7 @@ describe('CreateAccount', () => {
     let user = null;
 
     function createUser( data ) {
-        let body = {
-            name: data.name,
-            email: data.email,
-            password: data.password
-        }
-
-        return new Api().createUserApi( body, XMLHttpRequest ).then( user => {
+        return new Api().createUserApi( data, XMLHttpRequest ).then( user => {
             if( !user.id )
                 throw new Error("Something wrong! Try again later");
 
@@ -77,12 +71,17 @@ describe('CreateAccount', () => {
     };
 
     before( async () => {
-        user = await createUser( form );
+        user = await createUser({
+            name: form.name,
+            email: form.email,
+            password: form.password
+        });
     });
 
     describe('Create User on Api', () => {
-        it('should be return `object` with property `id` if user created successfuly', () => {
+        it('should be return `object` with propertys `id` and `createdAt` if user created successfuly', () => {
             user.should.have.property('id');
+            user.should.have.property('createdAt');
         })
     });
 

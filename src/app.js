@@ -85,7 +85,12 @@ class App {
     handleSubmitEvents(){
         this.inputs.submit.addEventListener('click', (e) => {
             e.preventDefault();
-            this.createUser();
+
+            this.createUser({
+                name: this.inputs.name.value,
+                email: this.inputs.email.value,
+                password: this.inputs.name.value,
+            });
         });
     }
 
@@ -127,7 +132,7 @@ class App {
         `;
     }
 
-    createUser() {
+    createUser( data ) {
         /**
          * Lock Form when sending data to api
          * Extra validation, case user try remove disable attr manually
@@ -141,10 +146,9 @@ class App {
             if ( this.validateDataBeforeSend() ) {
 
                 this.toggleLockForm(true);
-
                 this.inputs.submit.classList.add('sending');
 
-                new Api().createUserApi(this.formValidations).then(user => {
+                new Api().createUserApi(data).then(user => {
                     if (!user.id)
                         toast.showToast('Something wrong! Try again later', 'danger');
                     else {
