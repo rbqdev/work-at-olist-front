@@ -1,7 +1,5 @@
 export class Observable {
 
-    constructor() { }
-
     createObservable(observable, { onGet, onSet }) {
         const interceptor = {
             get(target, key, receiver) {
